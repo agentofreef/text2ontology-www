@@ -1,9 +1,11 @@
 import { blogCatalog } from "@/lib/content";
 import { IndexShell } from "@/components/site/IndexShell";
+import { pageAlternates } from "@/lib/seo";
 
 export const metadata = {
   title: "Blog",
   description: "Long-form pieces on AI / data / ontology — the commercial thesis, the critique of mainstream Agentic Data Analyst, and the emerging Business Ontology Engineer role.",
+  alternates: pageAlternates({ enPath: "/blog", lang: "en" }),
 };
 
 export default function BlogIndex() {

@@ -4,6 +4,7 @@ import { SectionBeliefs } from "@/components/landing/SectionBeliefs";
 import { SectionFlow } from "@/components/landing/SectionFlow";
 import { SectionShipped } from "@/components/landing/SectionShipped";
 import { SectionStart } from "@/components/landing/SectionStart";
+import { pageAlternates } from "@/lib/seo";
 
 /**
  * 中文 landing. Same component graph as / (English), just with lang="zh".
@@ -12,7 +13,8 @@ import { SectionStart } from "@/components/landing/SectionStart";
 export const metadata = {
   title: "text2ontology — 本体先于查询",
   description:
-    "一套 LLM 驱动数据分析的开源系统 —— 组织维护本体,LLM 只往意图模板里填参数。每个错误都有地址。",
+    "LLM 驱动数据分析,组织维护本体,LLM 只往意图模板里填参数。每个错误都有地址。",
+  alternates: pageAlternates({ enPath: "", lang: "zh" }),
 };
 
 export default function Home() {

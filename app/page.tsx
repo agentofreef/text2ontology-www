@@ -4,6 +4,7 @@ import { SectionBeliefs } from "@/components/landing/SectionBeliefs";
 import { SectionFlow } from "@/components/landing/SectionFlow";
 import { SectionShipped } from "@/components/landing/SectionShipped";
 import { SectionStart } from "@/components/landing/SectionStart";
+import { pageAlternates } from "@/lib/seo";
 
 /**
  * English landing page. Same component graph as /zh/, just with lang="en".
@@ -14,6 +15,10 @@ import { SectionStart } from "@/components/landing/SectionStart";
  *   04 shipped       → what you can actually run today
  *   05 start         → docker compose up + GitHub link
  */
+export const metadata = {
+  alternates: pageAlternates({ enPath: "", lang: "en" }),
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen">

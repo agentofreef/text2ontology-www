@@ -1,10 +1,12 @@
 import { loadAndRender } from "@/lib/content";
 import { DocShell } from "@/components/site/DocShell";
+import { pageAlternates } from "@/lib/seo";
 
 export const metadata = {
   title: "Manifesto — Ontology Before Query",
   description:
     "The thesis: LLM-driven analysis should fill parameters into intent templates the organization maintains. Why ontology-first, why bounded error, why Resolution over Discovery.",
+  alternates: pageAlternates({ enPath: "/manifesto", lang: "en" }),
 };
 
 export default function ManifestoPage() {

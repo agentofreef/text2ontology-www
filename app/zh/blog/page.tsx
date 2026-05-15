@@ -1,9 +1,11 @@
 import { blogCatalog } from "@/lib/content";
 import { IndexShell } from "@/components/site/IndexShell";
+import { pageAlternates } from "@/lib/seo";
 
 export const metadata = {
   title: "博客",
   description: "关于 AI / 数据 / 本体的长文 —— 商业 thesis、对主流 Agentic Data Analyst 的反驳、即将出现的业务本体工程师角色。",
+  alternates: pageAlternates({ enPath: "/blog", lang: "zh" }),
 };
 
 export default function BlogIndexZh() {

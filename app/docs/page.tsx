@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { pageAlternates } from "@/lib/seo";
 
 export const metadata = {
   title: "Docs",
   description: "User documentation for text2ontology — coming soon.",
+  alternates: pageAlternates({ enPath: "/docs", lang: "en" }),
 };
 
 export default function DocsIndex() {

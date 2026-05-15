@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { pageAlternates } from "@/lib/seo";
 
 export const metadata = {
   title: "文档",
   description: "text2ontology 用户文档 —— 建设中。",
+  alternates: pageAlternates({ enPath: "/docs", lang: "zh" }),
 };
 
 export default function DocsIndexZh() {

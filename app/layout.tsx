@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono, Noto_Sans_SC } from "next/font/google";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
+import { SITE_URL } from "@/lib/seo";
 import "./globals.css";
 
 // Three font families to mirror the main product's design system.
@@ -25,7 +26,7 @@ const notoSansSC = Noto_Sans_SC({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://text2ontology.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "text2ontology — Ontology before query",
     template: "%s · text2ontology",
@@ -36,9 +37,10 @@ export const metadata: Metadata = {
     title: "text2ontology — Ontology before query",
     description:
       "LLM-driven analysis should not freely write SQL. It should fill parameters into intent templates the organization maintains.",
-    url: "https://text2ontology.com",
+    url: SITE_URL,
     siteName: "text2ontology",
     type: "website",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
@@ -54,6 +56,17 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Inline lang-attribute fix. The root <html> ships with `lang="en"` because
+ * static export resolves the layout once for every route. This <script> runs
+ * synchronously in <head> before paint — it flips `documentElement.lang` to
+ * `zh-CN` for any /zh/* path, so AT screen readers, browser translation
+ * banners, and JS-aware crawlers (Googlebot, Bingbot since 2019) all see the
+ * correct locale. Non-JS crawlers see `en` on ZH pages — small cost we
+ * accept to avoid restructuring the entire app into route groups.
+ */
+const LANG_SCRIPT = `(function(){var p=location.pathname;if(p==='/zh'||p.indexOf('/zh/')===0){document.documentElement.lang='zh-CN';}})();`;
+
 export default function RootLayout({
   children,
 }: {
@@ -64,6 +77,9 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${notoSansSC.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: LANG_SCRIPT }} />
+      </head>
       <body>
         <Nav />
         {children}

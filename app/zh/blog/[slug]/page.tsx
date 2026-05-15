@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { blogCatalog, loadAndRender } from "@/lib/content";
 import { DocShell } from "@/components/site/DocShell";
+import { pageAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
   return blogCatalog.zh.map((e) => ({ slug: e.slug }));
@@ -17,6 +18,7 @@ export async function generateMetadata({
   return {
     title: meta.title,
     description: meta.subtitle,
+    alternates: pageAlternates({ enPath: `/blog/${slug}`, lang: "zh" }),
   };
 }
 
