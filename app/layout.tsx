@@ -46,6 +46,12 @@ export const metadata: Metadata = {
     description:
       "LLM-driven analysis should not freely write SQL. It should fill parameters into intent templates the organization maintains.",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({

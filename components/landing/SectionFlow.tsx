@@ -1,73 +1,135 @@
 "use client";
 
 import { Reveal } from "./Reveal";
+import type { Lang } from "./Hero";
 
-const steps = [
-  {
-    label: "QUESTION",
-    sub: "natural language",
-    body: "User asks one sentence. Plain words, no SQL.",
+const t = {
+  en: {
+    num: "03",
+    label: "the runtime",
+    title: "What happens when someone asks a question.",
+    stepWord: "step",
+    closing: (
+      <>
+        <span className="text-accent">
+          Tokenization and recall are deterministic backend code, not LLM
+          calls.
+        </span>{" "}
+        The LLM is a constrained executor — it picks from recall context,
+        fills parameters, calls tools. It does not invent. It does not
+        improvise.
+      </>
+    ),
+    steps: [
+      {
+        label: "QUESTION",
+        sub: "natural language",
+        body: "User asks one sentence. Plain words, no SQL.",
+      },
+      {
+        label: "TOKEN",
+        sub: "forced tokenization",
+        body: "Every question is split into tokens. Deterministic, server-side, no LLM.",
+      },
+      {
+        label: "RECALL",
+        sub: "EXACT · FUZZY · VEC",
+        body: "Three tiers cascading. Each token finds its OD / Intent / Keyword anchor.",
+      },
+      {
+        label: "INTENT",
+        sub: "fill parameters",
+        body: "LLM picks one Intent. Supplies parameters. Cannot freely write SQL.",
+      },
+      {
+        label: "SQL",
+        sub: "deterministic compiler",
+        body: "Engine compiles {intent, params} into Postgres SQL. Single source of truth.",
+      },
+      {
+        label: "ANSWER",
+        sub: "auditable, fixable",
+        body: "Result returns with provenance. Wrong? Fix the Intent — every future query inherits.",
+      },
+    ],
   },
-  {
-    label: "TOKEN",
-    sub: "forced tokenization",
-    body: "Every question is split into tokens. Deterministic, server-side, no LLM.",
+  zh: {
+    num: "03",
+    label: "运行时",
+    title: "用户问一句话,系统做了什么。",
+    stepWord: "步",
+    closing: (
+      <>
+        <span className="text-accent">
+          分词和召回是 deterministic 的后端代码,不是 LLM 调用。
+        </span>{" "}
+        LLM 是受约束的执行者 —— 从召回上下文里挑、填参数、调工具。它不发明,它不即兴。
+      </>
+    ),
+    steps: [
+      {
+        label: "QUESTION",
+        sub: "自然语言",
+        body: "用户问一句话。人话,不写 SQL。",
+      },
+      {
+        label: "TOKEN",
+        sub: "强制分词",
+        body: "每个问题被切成 tokens。Deterministic、服务端、无 LLM。",
+      },
+      {
+        label: "RECALL",
+        sub: "EXACT · FUZZY · VEC",
+        body: "三层级联。每个 token 找到自己的 OD / Intent / Keyword 锚点。",
+      },
+      {
+        label: "INTENT",
+        sub: "填参数",
+        body: "LLM 选一个 Intent,填参数。不能自由拼 SQL。",
+      },
+      {
+        label: "SQL",
+        sub: "deterministic 编译器",
+        body: "引擎把 {intent, params} 编译成 Postgres SQL。单一真理来源。",
+      },
+      {
+        label: "ANSWER",
+        sub: "可审计、可修复",
+        body: "结果带 provenance 返回。错了?改 Intent —— 所有未来查询都跟着改对。",
+      },
+    ],
   },
-  {
-    label: "RECALL",
-    sub: "EXACT · FUZZY · VEC",
-    body: "Three tiers cascading. Each token finds its OD / Intent / Keyword anchor.",
-  },
-  {
-    label: "INTENT",
-    sub: "fill parameters",
-    body: "LLM picks one Intent. Supplies parameters. Cannot freely write SQL.",
-  },
-  {
-    label: "SQL",
-    sub: "deterministic compiler",
-    body: "Engine compiles {intent, params} into Postgres SQL. Single source of truth.",
-  },
-  {
-    label: "ANSWER",
-    sub: "auditable, fixable",
-    body: "Result returns with provenance. Wrong? Fix the Intent — every future query inherits.",
-  },
-];
+};
 
-/**
- * Section 3 — the runtime flow. Six labeled tiles in a horizontal scroll on
- * narrow viewports, a six-up grid on wide ones. Industrial: square tiles,
- * monospace labels, accent dot to separate label and sub-label.
- */
-export function SectionFlow() {
+export function SectionFlow({ lang }: { lang: Lang }) {
+  const c = t[lang];
   return (
     <section className="border-b border-border bg-canvas">
       <div className="mx-auto max-w-[1600px] px-6 py-28">
         <Reveal>
           <div className="mb-12 flex items-center gap-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
-              ▼// 03
+              ▼// {c.num}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-soft">
-              the runtime
+              {c.label}
             </span>
           </div>
         </Reveal>
 
         <Reveal delay={0.05}>
           <h2 className="mb-16 max-w-[920px] font-sans text-[clamp(2rem,4.5vw,3.75rem)] font-semibold leading-tight tracking-tight text-ink">
-            What happens when someone asks a question.
+            {c.title}
           </h2>
         </Reveal>
 
         <div className="grid grid-cols-1 gap-px bg-border md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          {steps.map((s, i) => (
+          {c.steps.map((s, i) => (
             <Reveal key={s.label} delay={0.05 + i * 0.04}>
               <div className="flex h-full flex-col bg-canvas p-6 hover:bg-canvas-alt">
                 <div className="mb-6 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
                   <span className="inline-block size-1.5 bg-accent" />
-                  step {i + 1}
+                  {c.stepWord} {i + 1}
                 </div>
                 <div className="mb-2 font-mono text-base font-semibold tracking-[0.12em] text-ink">
                   {s.label}
@@ -85,11 +147,7 @@ export function SectionFlow() {
 
         <Reveal delay={0.4}>
           <p className="mt-12 max-w-[820px] font-mono text-sm leading-relaxed text-text-soft">
-            <span className="text-accent">Tokenization and recall are
-              deterministic backend code, not LLM calls.</span>{" "}
-            The LLM is a constrained executor — it picks from recall context,
-            fills parameters, calls tools. It does not invent. It does not
-            improvise.
+            {c.closing}
           </p>
         </Reveal>
       </div>

@@ -1,0 +1,29 @@
+import { Hero } from "@/components/landing/Hero";
+import { SectionProblem } from "@/components/landing/SectionProblem";
+import { SectionBeliefs } from "@/components/landing/SectionBeliefs";
+import { SectionFlow } from "@/components/landing/SectionFlow";
+import { SectionShipped } from "@/components/landing/SectionShipped";
+import { SectionStart } from "@/components/landing/SectionStart";
+
+/**
+ * 中文 landing. Same component graph as / (English), just with lang="zh".
+ * Static export emits this to /zh/index.html.
+ */
+export const metadata = {
+  title: "text2ontology — 本体先于查询",
+  description:
+    "一份 LLM 驱动数据分析的参考实现 —— 组织维护本体,LLM 只往意图模板里填参数。每个错误都有地址。",
+};
+
+export default function Home() {
+  return (
+    <main className="min-h-screen">
+      <Hero lang="zh" />
+      <SectionProblem lang="zh" />
+      <SectionBeliefs lang="zh" />
+      <SectionFlow lang="zh" />
+      <SectionShipped lang="zh" />
+      <SectionStart lang="zh" />
+    </main>
+  );
+}

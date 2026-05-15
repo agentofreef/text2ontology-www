@@ -6,8 +6,8 @@ import { SectionShipped } from "@/components/landing/SectionShipped";
 import { SectionStart } from "@/components/landing/SectionStart";
 
 /**
- * Landing page assembly. Five sections after the hero, telling the story in
- * the order:
+ * English landing page. Same component graph as /zh/, just with lang="en".
+ * Five sections after the hero, telling the story in the order:
  *   01 the problem  → why "AI + schema" doesn't work
  *   02 the position → three beliefs that drive the design
  *   03 the runtime  → six-step flow from question to answer
@@ -17,12 +17,12 @@ import { SectionStart } from "@/components/landing/SectionStart";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Hero />
-      <SectionProblem />
-      <SectionBeliefs />
-      <SectionFlow />
-      <SectionShipped />
-      <SectionStart />
+      <Hero lang="en" />
+      <SectionProblem lang="en" />
+      <SectionBeliefs lang="en" />
+      <SectionFlow lang="en" />
+      <SectionShipped lang="en" />
+      <SectionStart lang="en" />
     </main>
   );
 }
