@@ -1,85 +1,74 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 
-/**
- * /zh/docs placeholder — same shape as the English /docs/ but pointing at
- * the Chinese essays in the main repo.
- */
 export const metadata = {
   title: "文档",
-  description: "text2ontology 文档 —— 正在搭建中。",
+  description: "text2ontology 用户文档 —— 建设中。",
 };
 
-const links = [
-  {
-    title: "宣言 —— 本体先于查询",
-    href: "https://github.com/agentofreef/text2ontology/blob/main/docs/manifesto/manifesto.zh.md",
-    desc: "整套 thesis。为什么本体先于查询、为什么有界错误、为什么 Resolution 而不是 Discovery。",
-  },
-  {
-    title: "设计哲学",
-    href: "https://github.com/agentofreef/text2ontology/blob/main/docs/spec/design-philosophy.zh.md",
-    desc: "三层本体生命周期 + 两层查询架构 + 召回机制深度拆解。",
-  },
-  {
-    title: "责任即利润率",
-    href: "https://github.com/agentofreef/text2ontology/blob/main/docs/essays/responsibility-as-moat.zh.md",
-    desc: "为什么 AI 企业服务的真正护城河是谁承担责任,而不是谁的模型更大。",
-  },
-  {
-    title: "AI Agentic 错觉",
-    href: "https://github.com/agentofreef/text2ontology/blob/main/docs/essays/ai-agentic-illusion.zh.md",
-    desc: "为什么 \"AI Agentic Data Analyst\" 这个产品类目从概念框架开始就是错的 —— 五层拆解。",
-  },
-  {
-    title: "业务本体工程师",
-    href: "https://github.com/agentofreef/text2ontology/blob/main/docs/essays/business-ontology-engineer.zh.md",
-    desc: "一个即将出现的新职业 —— 它在干什么、为什么不是任何现有 title、会在哪种公司里先出现。",
-  },
-];
-
-export default function DocsLanding() {
+export default function DocsIndexZh() {
   return (
     <main className="min-h-screen pt-24">
-      <section className="mx-auto max-w-[1100px] px-6 py-20">
-        <div className="mb-12 flex items-center gap-3">
+      <section className="mx-auto max-w-[820px] px-6 py-16">
+        <div className="mb-10 flex items-center gap-3">
           <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
             ▼// 文档
           </span>
-          <span className="status-block status-block-accent">搭建中</span>
+          <span className="status-block status-block-accent">建设中</span>
         </div>
 
         <h1 className="mb-8 font-sans text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[0.95] tracking-tight text-ink">
           文档
         </h1>
 
-        <p className="mb-16 max-w-[680px] font-mono text-sm leading-relaxed text-text-soft">
-          完整的 Fumadocs 文档站会在下个版本上线。在那之前,所有 essay + 设计笔记的中文版都住在 GitHub 仓库里:
+        <p className="mb-6 max-w-[640px] font-mono text-sm leading-relaxed text-text-soft">
+          用户文档建设中。这一栏最终会按"实际触碰它的顺序"放:安装、首次配置、本体构建、Agent 模式 reference。
         </p>
 
-        <div className="grid gap-px bg-border md:grid-cols-2">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col bg-canvas p-8 hover:bg-canvas-alt"
-            >
-              <div className="mb-4 flex items-start justify-between gap-3">
-                <h2 className="font-sans text-lg font-semibold leading-tight tracking-tight text-ink group-hover:text-accent">
-                  {l.title}
-                </h2>
-                <ArrowUpRight className="size-4 shrink-0 text-text-ghost group-hover:text-accent" />
-              </div>
-              <p className="font-mono text-xs leading-relaxed text-text-soft">
-                {l.desc}
-              </p>
-            </a>
-          ))}
+        <p className="mb-12 max-w-[640px] font-mono text-sm leading-relaxed text-text-soft">
+          在那之前,GitHub 仓库的 README 涵盖安装步骤;架构深度文住在{" "}
+          <Link
+            href="/zh/blog/"
+            className="border-b border-text-ghost text-ink hover:border-accent hover:text-accent"
+          >
+            博客
+          </Link>{" "}
+          —— 想理解系统怎么搭起来的,从{" "}
+          <Link
+            href="/zh/blog/design-philosophy/"
+            className="border-b border-text-ghost text-ink hover:border-accent hover:text-accent"
+          >
+            设计哲学
+          </Link>{" "}
+          开始读。
+        </p>
+
+        <div className="mb-12 border-2 border-ink bg-canvas-alt p-6">
+          <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
+            // 这一栏的形态
+          </div>
+          <p className="font-mono text-xs leading-relaxed text-text">
+            这一栏写完之后想长成的样子:
+          </p>
+          <ul className="mt-4 space-y-2 font-mono text-xs leading-relaxed text-text">
+            <li className="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-1.5 before:bg-accent before:content-['']">
+              01 — 安装与首次启动
+            </li>
+            <li className="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-1.5 before:bg-accent before:content-['']">
+              02 — 接入数据源(PBIT / Excel / Postgres / SQLite)
+            </li>
+            <li className="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-1.5 before:bg-accent before:content-['']">
+              03 — Builder 模式:用人话把业务讲给 Agent 听
+            </li>
+            <li className="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-1.5 before:bg-accent before:content-['']">
+              04 — Curate 本体(关键词、Intent、别名)
+            </li>
+            <li className="relative pl-6 before:absolute before:left-0 before:top-[0.55em] before:size-1.5 before:bg-accent before:content-['']">
+              05 — 开始提问;错了在"地址"那里修
+            </li>
+          </ul>
         </div>
 
-        <div className="mt-16 border-t border-border pt-8">
+        <div className="border-t border-border pt-8">
           <Link
             href="/zh/"
             className="font-mono text-xs uppercase tracking-[0.22em] text-text-soft hover:text-ink"
