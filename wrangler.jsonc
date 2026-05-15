@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "text2ontology-www",
+  "compatibility_date": "2026-05-15",
+  // Workers Static Assets — no worker script, just serve the Next.js
+  // static export directly from Cloudflare's edge. `directory` matches
+  // Next.js's `output: 'export'` output, which lands in ./out.
+  "assets": {
+    "directory": "./out",
+    // 404-page tells Workers to look for a 404.html when a route
+    // doesn't resolve to an asset. Next.js emits one for /_not-found.
+    "not_found_handling": "404-page"
+  }
+}
