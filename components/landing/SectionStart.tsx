@@ -10,13 +10,12 @@ const t = {
   en: {
     num: "05",
     label: "start",
-    titleA: "Self-contained.",
-    titleB: "docker compose up.",
-    titleC: "No external services.",
+    titleA: "Quick start.",
+    titleB: "Five commands.",
+    titleC: "Five minutes.",
     body: (
       <>
-        Postgres with pgvector, the 6 Go services, the Next.js frontend — all
-        bundled. Schema auto-applies on first start. Default admin is{" "}
+        Schema auto-applies on first start. Default admin is{" "}
         <code className="bg-canvas-alt px-1 py-0.5 text-text">
           admin / admin
         </code>{" "}
@@ -38,13 +37,12 @@ const t = {
   zh: {
     num: "05",
     label: "开始",
-    titleA: "自包含。",
-    titleB: "docker compose up。",
-    titleC: "不依赖任何外部服务。",
+    titleA: "快速开始。",
+    titleB: "五条命令。",
+    titleC: "五分钟。",
     body: (
       <>
-        Postgres + pgvector、6 个 Go 服务、Next.js 前端 —— 全部 bundle。Schema
-        首次启动自动 apply。默认管理员账号{" "}
+        Schema 首次启动自动 apply。默认管理员账号{" "}
         <code className="bg-canvas-alt px-1 py-0.5 text-text">
           admin / admin
         </code>{" "}

@@ -11,13 +11,11 @@ const t = {
     stepWord: "step",
     closing: (
       <>
-        <span className="text-accent">
-          Tokenization and recall are deterministic backend code, not LLM
-          calls.
-        </span>{" "}
-        The LLM is a constrained executor — it picks from recall context,
-        fills parameters, calls tools. It does not invent. It does not
-        improvise.
+        <span className="text-accent">Every step has an address.</span>{" "}
+        When an answer is wrong, you know which step to look at — the
+        tokenization, the recall, the intent, the parameters, the compiled
+        SQL — and where to fix it so the same shape of mistake doesn&apos;t
+        come back next week.
       </>
     ),
     steps: [
@@ -28,18 +26,18 @@ const t = {
       },
       {
         label: "TOKEN",
-        sub: "forced tokenization",
-        body: "Every question is split into tokens. Deterministic, server-side, no LLM.",
+        sub: "LLM tokenization",
+        body: "The LLM splits the question into business tokens before recall begins.",
       },
       {
         label: "RECALL",
         sub: "EXACT · FUZZY · VEC",
-        body: "Three tiers cascading. Each token finds its OD / Intent / Keyword anchor.",
+        body: "Three tiers cascading. Each token finds its anchor in the ontology.",
       },
       {
         label: "INTENT",
         sub: "fill parameters",
-        body: "LLM picks one Intent. Supplies parameters. Cannot freely write SQL.",
+        body: "LLM picks one Intent from the recalled context. Supplies parameters.",
       },
       {
         label: "SQL",
@@ -60,10 +58,8 @@ const t = {
     stepWord: "步",
     closing: (
       <>
-        <span className="text-accent">
-          分词和召回是 deterministic 的后端代码,不是 LLM 调用。
-        </span>{" "}
-        LLM 是受约束的执行者 —— 从召回上下文里挑、填参数、调工具。它不发明,它不即兴。
+        <span className="text-accent">每一步都有地址。</span>{" "}
+        答案错了的时候,你知道**应该看哪一步** —— 分词、召回、意图、参数、编译出来的 SQL —— **以及在哪儿改它**,让同样形状的错误下个礼拜不再撞。
       </>
     ),
     steps: [
@@ -74,18 +70,18 @@ const t = {
       },
       {
         label: "TOKEN",
-        sub: "强制分词",
-        body: "每个问题被切成 tokens。Deterministic、服务端、无 LLM。",
+        sub: "LLM 分词",
+        body: "大语言模型把问题切成业务 token,作为后续召回的输入。",
       },
       {
         label: "RECALL",
         sub: "EXACT · FUZZY · VEC",
-        body: "三层级联。每个 token 找到自己的 OD / Intent / Keyword 锚点。",
+        body: "三层级联。每个 token 在本体里找到自己的锚点。",
       },
       {
         label: "INTENT",
         sub: "填参数",
-        body: "LLM 选一个 Intent,填参数。不能自由拼 SQL。",
+        body: "LLM 从召回上下文里选一个 Intent,填参数。",
       },
       {
         label: "SQL",
