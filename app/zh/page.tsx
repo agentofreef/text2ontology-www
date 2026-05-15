@@ -12,7 +12,7 @@ import { SectionStart } from "@/components/landing/SectionStart";
 export const metadata = {
   title: "text2ontology — 本体先于查询",
   description:
-    "一份 LLM 驱动数据分析的参考实现 —— 组织维护本体,LLM 只往意图模板里填参数。每个错误都有地址。",
+    "一套 LLM 驱动数据分析的开源系统 —— 组织维护本体,LLM 只往意图模板里填参数。每个错误都有地址。",
 };
 
 export default function Home() {

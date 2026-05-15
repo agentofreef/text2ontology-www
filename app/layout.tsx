@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s · text2ontology",
   },
   description:
-    "A reference implementation of LLM-driven data analysis where the organization maintains the ontology and the LLM only fills parameters into intent templates. Built so every wrong answer has an address.",
+    "An open-source system for LLM-driven data analysis where the organization maintains the ontology and the LLM only fills parameters into intent templates. Built so every wrong answer has an address.",
   openGraph: {
     title: "text2ontology — Ontology before query",
     description:

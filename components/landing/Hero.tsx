@@ -19,7 +19,7 @@ export type Lang = "en" | "zh";
  */
 const t = {
   en: {
-    eyebrow: "// A Reference Implementation",
+    eyebrow: "// An Open-Source System",
     eyebrowAccent: "v0.1 · OSS",
     titleLine1: "Ontology",
     titleLine2: "before query.",
@@ -41,7 +41,7 @@ const t = {
     scrollContinue: "Continue",
   },
   zh: {
-    eyebrow: "// 一份参考实践",
+    eyebrow: "// 一套开源系统",
     eyebrowAccent: "v0.1 · 开源",
     titleLine1: "本体先",
     titleLine2: "于查询。",

@@ -14,7 +14,7 @@ const t = {
     ],
     builtHeader: "▼// Built by",
     builtBlurb: [
-      "Reference implementation. Not a product.",
+      "Open-source. Self-hosted.",
       "Patience required. No magic.",
     ],
     foot1: "// text2ontology.com",
@@ -30,7 +30,7 @@ const t = {
     ],
     builtHeader: "▼// 作者",
     builtBlurb: [
-      "参考实践,不是产品。",
+      "开源,自托管。",
       "需要耐心,不会有魔法。",
     ],
     foot1: "// text2ontology.com",
