@@ -17,9 +17,9 @@
  */
 export const GISCUS_CONFIG = {
   repo: "agentofreef/text2ontology-www" as `${string}/${string}`,
-  repoId: "__REPLACE_WITH_REPO_ID__",
+  repoId: "R_kgDOSeYUBA",
   category: "Comments",
-  categoryId: "__REPLACE_WITH_CATEGORY_ID__",
+  categoryId: "DIC_kwDOSeYUBM4C9HxH",
   mapping: "pathname" as const,
   strict: "0" as const,
   reactionsEnabled: "1" as const,
