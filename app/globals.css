@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
+/*
+ * Industrial / clinical / Swiss-inspired design system.
+ * Mirrors the palette used in the main `text2ontology` repo so the site
+ * and the product feel like one thing.
+ */
+
+@theme {
+  --color-ink: #0a0a0a;
+  --color-ink-strong: #171717;
+  --color-canvas: #fafafa;
+  --color-canvas-alt: #f4f4f4;
+  --color-border: #e5e5e5;
+  --color-border-strong: #d4d4d4;
+  --color-text: #171717;
+  --color-text-soft: #525252;
+  --color-text-ghost: #a3a3a3;
+  --color-accent: #ff4500;
+  --color-accent-soft: #ffe6dc;
+
+  --font-sans: "Space Grotesk", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-zh: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+/* Base resets — square corners by default, linear motion, no spring shadows. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  background-color: var(--color-canvas);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "ss02";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+}
+
+/* Industrial CLI prefix decorations. Used in section headings to evoke the
+ * terminal-like accent the main product uses. */
+.cli-prefix::before {
+  content: "▼//";
+  margin-right: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  letter-spacing: 0.18em;
+  color: var(--color-text-ghost);
+}
+
+/* Industrial divider — a thin top + bottom rule, used as section separators. */
+.rule-double {
+  border-top: 2px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Square status block — small monospace label with a hard border. */
+.status-block {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-text-soft);
+  display: inline-block;
+}
+
+.status-block-accent {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Selection — accent flash. */
+::selection {
+  background: var(--color-accent);
+  color: white;
 }
