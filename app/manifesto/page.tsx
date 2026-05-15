@@ -17,6 +17,7 @@ export default function ManifestoPage() {
       title="Ontology Before Query"
       subtitle="The thesis. Why LLM-driven analysis should fill parameters into intent templates the organization maintains — and what that buys you."
       html={html}
+      lang="en"
     />
   );
 }

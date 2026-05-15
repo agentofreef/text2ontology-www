@@ -17,6 +17,7 @@ export default function ManifestoPageZh() {
       title="本体先于查询"
       subtitle="整套 thesis。为什么 LLM 驱动的数据分析应该往组织维护的 intent 模板里填参数 —— 以及这样换来什么。"
       html={html}
+      lang="zh"
     />
   );
 }

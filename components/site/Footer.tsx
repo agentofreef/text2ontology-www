@@ -12,6 +12,9 @@ const t = {
       { href: "/docs/", label: "Docs" },
       { href: "/blog/", label: "Blog" },
     ],
+    contactHeader: "▼// Contact",
+    rssLabel: "Subscribe via RSS",
+    rssHref: "/rss.xml",
     builtHeader: "▼// Built by",
     builtBlurb: [
       "Open-source. Self-hosted.",
@@ -28,6 +31,9 @@ const t = {
       { href: "/zh/docs/", label: "文档" },
       { href: "/zh/blog/", label: "博客" },
     ],
+    contactHeader: "▼// 联系",
+    rssLabel: "RSS 订阅",
+    rssHref: "/zh/rss.xml",
     builtHeader: "▼// 作者",
     builtBlurb: [
       "开源,自托管。",
@@ -37,6 +43,8 @@ const t = {
     foot2: "// 本体先于查询",
   },
 };
+
+const CONTACT_EMAIL = "redeemer@vip.163.com";
 
 /**
  * Footer reads locale from pathname so the layout stays a single component
@@ -50,7 +58,7 @@ export function Footer() {
   return (
     <footer className="border-t border-ink mt-32 bg-canvas-alt">
       <div className="mx-auto max-w-[1600px] px-6 py-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.22em]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -84,6 +92,24 @@ export function Footer() {
               className="font-mono text-xs text-text hover:text-accent"
             >
               GitHub →
+            </a>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
+              {c.contactHeader}
+            </div>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="font-mono text-xs text-text hover:text-accent break-all"
+            >
+              {CONTACT_EMAIL}
+            </a>
+            <a
+              href={c.rssHref}
+              className="font-mono text-xs text-text hover:text-accent"
+            >
+              {c.rssLabel} →
             </a>
           </div>
 

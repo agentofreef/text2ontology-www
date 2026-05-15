@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Prose } from "./Prose";
+import { Comments } from "./Comments";
 
 /**
  * Shared layout for every long-form doc page: manifesto, design philosophy,
  * essays. Header strip with ▼// section label, big sans title, mono subtitle,
- * the rendered prose body, and a back-link footer.
+ * the rendered prose body, comments widget, and a back-link footer.
  */
 export function DocShell({
   sectionLabel,
@@ -14,6 +15,7 @@ export function DocShell({
   title,
   subtitle,
   html,
+  lang,
 }: {
   sectionLabel: string;
   backHref: string;
@@ -21,6 +23,7 @@ export function DocShell({
   title: string;
   subtitle?: string;
   html: string;
+  lang: "en" | "zh";
 }) {
   return (
     <main className="min-h-screen pt-24">
@@ -43,6 +46,8 @@ export function DocShell({
         </header>
 
         <Prose html={html} />
+
+        <Comments lang={lang} />
 
         <div className="mt-20 border-t border-border pt-8">
           <Link

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>text2ontology — Blog</title>
+    <link>https://text2ontology.com/blog/</link>
+    <atom:link href="https://text2ontology.com/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Long-form thinking on AI / data / ontology. Architecture, commercial thesis, critique of mainstream Agentic Data Analyst.</description>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 15 May 2026 14:43:35 GMT</lastBuildDate>
+    <managingEditor>redeemer@vip.163.com (AgentOfReef)</managingEditor>
+    <webMaster>redeemer@vip.163.com (AgentOfReef)</webMaster>
+    <item>
+      <title>Design Philosophy</title>
+      <link>https://text2ontology.com/blog/design-philosophy/</link>
+      <guid isPermaLink="true">https://text2ontology.com/blog/design-philosophy/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>Three-layer ontology + two-level query + one-pass recall This is the spine of the whole essay. See the full flow first, then unpack each step. The core insight: &quot;Tokenize + recall&quot; is deterministic — backend SQL code, no LLM. The LLM is a constrained executor, not a source of truth — it can only pick from recalled cont…</description>
+    </item>
+    <item>
+      <title>Responsibility as Moat</title>
+      <link>https://text2ontology.com/blog/responsibility-as-moat/</link>
+      <guid isPermaLink="true">https://text2ontology.com/blog/responsibility-as-moat/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>The real moat for AI enterprise services: why OpenAI has high valuation but low margins, and Palantir has high valuation and high margins Model capability scales exponentially, but determinism will never reach 100%. That&apos;s a mathematical fact — it doesn&apos;t disappear with more parameters or more training data. Enterprise…</description>
+    </item>
+    <item>
+      <title>The AI Agentic Illusion</title>
+      <link>https://text2ontology.com/blog/ai-agentic-illusion/</link>
+      <guid isPermaLink="true">https://text2ontology.com/blog/ai-agentic-illusion/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>&quot;Agentic Data Analyst&quot; conflates 5 different things &quot;Agentic&quot; became a buzzword overnight in 2024-2025. After OpenAI&apos;s GPT-4 function-calling + LangChain&apos;s multi-step loop became standard, the adjective got slapped onto every &quot;LLM + tool use&quot; product. But its engineering definition is paper-thin: LLM + tool calls + mul…</description>
+    </item>
+    <item>
+      <title>Business Ontology Engineer</title>
+      <link>https://text2ontology.com/blog/business-ontology-engineer/</link>
+      <guid isPermaLink="true">https://text2ontology.com/blog/business-ontology-engineer/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>Business Ontology Engineer (BOE) · In the AI era, the person who makes a company&apos;s &quot;data truth&quot; hold Ontology has an operational definition in the enterprise context. When you hear someone say &quot;ontology,&quot; you can check what they mean against these five criteria: Concretely: - &quot;Order&quot; is a business concept - &quot;Customer&quot; …</description>
+    </item>
+  </channel>
+</rss>

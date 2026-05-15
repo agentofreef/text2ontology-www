@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>text2ontology — 博客</title>
+    <link>https://text2ontology.com/zh/blog/</link>
+    <atom:link href="https://text2ontology.com/zh/rss.xml" rel="self" type="application/rss+xml" />
+    <description>关于 AI / 数据 / 本体的长文。架构、商业 thesis、对主流 Agentic Data Analyst 的反驳。</description>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 15 May 2026 14:43:35 GMT</lastBuildDate>
+    <managingEditor>redeemer@vip.163.com (AgentOfReef)</managingEditor>
+    <webMaster>redeemer@vip.163.com (AgentOfReef)</webMaster>
+    <item>
+      <title>设计哲学</title>
+      <link>https://text2ontology.com/zh/blog/design-philosophy/</link>
+      <guid isPermaLink="true">https://text2ontology.com/zh/blog/design-philosophy/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>三层本体 + 两层查询 + 一次召回 这是整篇文章的主线。先看完整流程,再看每一步背后的设计。 这套流程的核心洞察: &quot;分词 + 召回&quot;是 deterministic 的(后端 SQL 代码,无 LLM)。 LLM 是受约束的执行者,不是真理来源 —— 它只能从召回上下文里挑、填参数、调工具。 这就是 text2ontology 跟&quot;AI Agent 自由发挥&quot;路线的本质区别。 把上面的运行时抽象成结构,就得到 text2ontology 的两个核心 framework: 层内灵活组合,层间单向依赖 —— 入口层引用存在层,关联层在存在层之上,学习层是产物。 两层架构的本质:把&quot;变化的成本&quot;按层分配。schema 变只改 OD 的 …</description>
+    </item>
+    <item>
+      <title>责任即利润率</title>
+      <link>https://text2ontology.com/zh/blog/responsibility-as-moat/</link>
+      <guid isPermaLink="true">https://text2ontology.com/zh/blog/responsibility-as-moat/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>AI 企业服务的真正护城河:为什么 OpenAI 估值高毛利低,Palantir 估值高毛利也高 模型能力指数级提升,但确定性永远不会到 100%。这是个数学事实,不会因为参数更多、训练数据更大而消失。 企业爱前者,怕后者。强大让企业看到自动化的可能;不确定让企业看到决策出错的风险。所有 AI 在 B 端商业化的难题,都来自这个张力。 回答这个张力的方式,决定一家 AI 公司能不能赚到钱。 Cursor、Copilot、Devin 让一个工程师做过去十人的活。但很少有人讨论:它们成功的前置条件是什么? 答案是:测试。 AI coding 的所有产品流程都依赖一个反馈循环: 测试在这里是裁判。当它说&quot;这段代码不对&quot;,代码就被丢弃,损失…</description>
+    </item>
+    <item>
+      <title>AI Agentic 错觉</title>
+      <link>https://text2ontology.com/zh/blog/ai-agentic-illusion/</link>
+      <guid isPermaLink="true">https://text2ontology.com/zh/blog/ai-agentic-illusion/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>Agentic Data Analyst 这个词混淆了 5 件不同的事 &quot;Agentic&quot; 是 2024-2025 年突然爆红的词。在 OpenAI 的 GPT-4 函数调用 + LangChain 的多步循环结构出现后,这个形容词被反复挂在任何&quot;LLM + tool use&quot;的产品上。 但它的工程定义其实极薄:LLM + 工具调用 + 多步循环。仅此而已。 营销话术给它注入的承诺,远超它的工程定义: - 自主性 (autonomy) —— 暗示系统能自己决定下一步 - 目标导向 (goal-seeking) —— 暗示系统理解你要什么 - 跨任务学习 (transfer learning) —— 暗示系统会越用越聪明 - 类人判断…</description>
+    </item>
+    <item>
+      <title>业务本体工程师</title>
+      <link>https://text2ontology.com/zh/blog/business-ontology-engineer/</link>
+      <guid isPermaLink="true">https://text2ontology.com/zh/blog/business-ontology-engineer/</guid>
+      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <description>Business Ontology Engineer (BOE) · AI 时代,谁让企业的&quot;数据真相&quot;成立 本体 (Ontology) 在企业语境下,有一组可操作的定义。如果你听到有人说&quot;本体&quot;,你可以用以下五条标准检查他说的是不是真的本体: 具体一点: - &quot;订单&quot;是一个业务概念 - &quot;客户&quot;是一个业务概念 - &quot;订单属于客户&quot;是它们之间的一种关系 - &quot;订单&quot;有&quot;金额&quot;、&quot;状态&quot;、&quot;下单时间&quot;等属性 - &quot;金额&quot;是数值,&quot;状态&quot;是机器码,&quot;下单时间&quot;是时间戳 把这些概念、属性、关系用 DB 表表达出来,就是本体。在 text2ontology 的实现里: - ontobjecttype 表存对象类型(订单、客户、产品) - o…</description>
+    </item>
+  </channel>
+</rss>

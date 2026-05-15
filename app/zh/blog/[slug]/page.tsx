@@ -37,6 +37,7 @@ export default async function BlogPostZh({
       title={meta.title}
       subtitle={meta.subtitle}
       html={html}
+      lang="zh"
     />
   );
 }

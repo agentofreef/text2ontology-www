@@ -37,6 +37,7 @@ export default async function BlogPost({
       title={meta.title}
       subtitle={meta.subtitle}
       html={html}
+      lang="en"
     />
   );
 }
