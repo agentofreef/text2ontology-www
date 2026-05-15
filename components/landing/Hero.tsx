@@ -19,8 +19,6 @@ export type Lang = "en" | "zh";
  */
 const t = {
   en: {
-    eyebrow: "// An Open-Source System",
-    eyebrowAccent: "v0.1 · OSS",
     titleLine1: "Ontology",
     titleLine2: "before query.",
     taglinePre: "Build the meaning ",
@@ -41,8 +39,6 @@ const t = {
     scrollContinue: "Continue",
   },
   zh: {
-    eyebrow: "// 一套开源系统",
-    eyebrowAccent: "v0.1 · 开源",
     titleLine1: "本体先",
     titleLine2: "于查询。",
     taglinePre: "在分析",
@@ -75,18 +71,6 @@ export function Hero({ lang }: { lang: Lang }) {
       <OntologyMesh />
 
       <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-20 pt-32">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: "linear" }}
-          className="mb-8 flex items-center gap-3"
-        >
-          <span className="status-block">{c.eyebrow}</span>
-          <span className="status-block status-block-accent">
-            {c.eyebrowAccent}
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
