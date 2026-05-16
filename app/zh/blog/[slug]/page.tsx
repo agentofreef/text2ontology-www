@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { blogCatalog, loadAndRender } from "@/lib/content";
+import { blogCatalog, loadDocument } from "@/lib/content";
 import { DocShell } from "@/components/site/DocShell";
 import { pageAlternates } from "@/lib/seo";
 
@@ -30,7 +30,7 @@ export default async function BlogPostZh({
   const { slug } = await params;
   const meta = blogCatalog.zh.find((e) => e.slug === slug);
   if (!meta) notFound();
-  const html = loadAndRender("zh", "blog", slug);
+  const { html, toc } = loadDocument("zh", "blog", slug);
   return (
     <DocShell
       sectionLabel={`博客 / ${slug}`}
@@ -39,6 +39,7 @@ export default async function BlogPostZh({
       title={meta.title}
       subtitle={meta.subtitle}
       html={html}
+      toc={toc}
       lang="zh"
     />
   );

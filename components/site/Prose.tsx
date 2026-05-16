@@ -16,6 +16,8 @@ export function Prose({ html }: { html: string }) {
         "[&_h2]:mt-16 [&_h2]:mb-5 [&_h2]:border-t [&_h2]:border-ink [&_h2]:pt-6 [&_h2]:font-sans [&_h2]:text-[clamp(1.4rem,2.6vw,2rem)] [&_h2]:font-semibold [&_h2]:leading-tight [&_h2]:tracking-tight [&_h2]:text-ink",
         "[&_h3]:mt-10 [&_h3]:mb-4 [&_h3]:font-sans [&_h3]:text-[1.2rem] [&_h3]:font-semibold [&_h3]:tracking-tight [&_h3]:text-ink",
         "[&_h4]:mt-8 [&_h4]:mb-3 [&_h4]:font-mono [&_h4]:text-[0.78rem] [&_h4]:uppercase [&_h4]:tracking-[0.18em] [&_h4]:text-text-soft",
+        // anchor offset so TOC jumps clear the fixed nav
+        "[&_h2]:scroll-mt-28 [&_h3]:scroll-mt-28",
         // body
         "[&_p]:my-5 [&_p]:text-[0.97rem] [&_p]:leading-[1.75] [&_p]:text-text",
         "[&_strong]:font-semibold [&_strong]:text-ink",
