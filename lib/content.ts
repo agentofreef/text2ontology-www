@@ -138,6 +138,14 @@ export const docsCatalog: Record<Lang, DocMeta[]> = {
 export const blogCatalog: Record<Lang, DocMeta[]> = {
   en: [
     {
+      slug: "text-to-sql-postmortem",
+      title: "The Day Text-to-SQL Died",
+      subtitle: "My VP watched the demo, didn't say no, and said one sentence — the sentence that killed our Text-to-SQL and gave rise to text2ontology's first principles. From the BERT dead end, to the keyword war on a local 70B model, to the despair of the multi-table collapse: a full year at war.",
+      kicker: "war story ★",
+      meta: "2026-05 · ~3,400 words · 13 min",
+      featured: true,
+    },
+    {
       slug: "design-philosophy",
       title: "Design Philosophy",
       subtitle: "Architecture deep dive: three-layer ontology lifecycle, two-level query architecture, recall in depth.",
