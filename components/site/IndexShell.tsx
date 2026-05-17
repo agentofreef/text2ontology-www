@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import type { ReactNode } from "react";
 
 export interface IndexEntry {
   slug: string;
@@ -14,6 +15,9 @@ export interface IndexEntry {
  * Shared layout for /docs/ and /blog/ index pages. Same industrial chrome as
  * DocShell — section label, big title, mono lede — followed by featured cards
  * (full-width, left accent stripe) on top and a 2-column grid below.
+ *
+ * `topSlot` renders between the header and the entries — used by /blog/ to
+ * drop in the 30-second overview video.
  */
 export function IndexShell({
   sectionLabel,
@@ -23,6 +27,7 @@ export function IndexShell({
   basePath,
   backHref,
   backLabel,
+  topSlot,
 }: {
   sectionLabel: string;
   title: string;
@@ -31,6 +36,7 @@ export function IndexShell({
   basePath: string;
   backHref: string;
   backLabel: string;
+  topSlot?: ReactNode;
 }) {
   const featured = entries.filter((e) => e.featured);
   const regular = entries.filter((e) => !e.featured);
@@ -52,6 +58,8 @@ export function IndexShell({
             {lede}
           </p>
         </header>
+
+        {topSlot ? <div className="mb-14">{topSlot}</div> : null}
 
         {featured.length > 0 && (
           <div className="mb-px flex flex-col gap-px bg-border">

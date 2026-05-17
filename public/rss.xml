@@ -6,14 +6,14 @@
     <atom:link href="https://text2ontology.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>Long-form thinking on AI / data / ontology. Architecture, commercial thesis, critique of mainstream Agentic Data Analyst.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 May 2026 15:47:14 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 17 May 2026 13:01:49 GMT</lastBuildDate>
     <managingEditor>redeemer@vip.163.com (AgentOfReef)</managingEditor>
     <webMaster>redeemer@vip.163.com (AgentOfReef)</webMaster>
     <item>
       <title>Design Philosophy</title>
       <link>https://text2ontology.com/blog/design-philosophy/</link>
       <guid isPermaLink="true">https://text2ontology.com/blog/design-philosophy/</guid>
-      <pubDate>Fri, 15 May 2026 22:50:15 GMT</pubDate>
+      <pubDate>Sun, 17 May 2026 09:13:39 GMT</pubDate>
       <description>Three-layer ontology + two-level query + one-pass recall This is the spine of the whole essay. See the full flow first, then unpack each step. The core insight: &quot;Tokenize + recall&quot; is deterministic — backend SQL code, no LLM. The LLM is a constrained executor, not a source of truth — it can only pick from recalled cont…</description>
     </item>
     <item>

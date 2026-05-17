@@ -1,5 +1,6 @@
 import { blogCatalog } from "@/lib/content";
 import { IndexShell } from "@/components/site/IndexShell";
+import { EmbeddedVideo } from "@/components/landing/EmbeddedVideo";
 import { pageAlternates } from "@/lib/seo";
 
 export const metadata = {
@@ -18,6 +19,7 @@ export default function BlogIndexZh() {
       basePath="/zh/blog"
       backHref="/zh/"
       backLabel="返回首页"
+      topSlot={<EmbeddedVideo lang="zh" />}
     />
   );
 }

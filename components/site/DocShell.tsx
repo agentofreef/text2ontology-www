@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import type { ReactNode } from "react";
 import { Prose } from "./Prose";
 import { Comments } from "./Comments";
 import { Toc } from "./Toc";
@@ -12,6 +13,9 @@ import type { TocItem } from "@/lib/content";
  *
  * When `toc` is non-empty the layout switches to content + sticky right
  * sidebar on lg+; otherwise it stays a single centered column.
+ *
+ * `topSlot` renders between the header and the prose — used by the
+ * design-philosophy essay to drop in the 30-second overview video.
  */
 export function DocShell({
   sectionLabel,
@@ -22,6 +26,7 @@ export function DocShell({
   html,
   lang,
   toc = [],
+  topSlot,
 }: {
   sectionLabel: string;
   backHref: string;
@@ -31,6 +36,7 @@ export function DocShell({
   html: string;
   lang: "en" | "zh";
   toc?: TocItem[];
+  topSlot?: ReactNode;
 }) {
   const hasToc = toc.length > 0;
 
@@ -65,6 +71,8 @@ export function DocShell({
                 </p>
               ) : null}
             </header>
+
+            {topSlot ? <div className="mb-14">{topSlot}</div> : null}
 
             <Prose html={html} />
 

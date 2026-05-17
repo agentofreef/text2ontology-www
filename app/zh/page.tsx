@@ -1,4 +1,5 @@
 import { Hero } from "@/components/landing/Hero";
+import { SectionVideo } from "@/components/landing/SectionVideo";
 import { SectionProblem } from "@/components/landing/SectionProblem";
 import { SectionBeliefs } from "@/components/landing/SectionBeliefs";
 import { SectionFlow } from "@/components/landing/SectionFlow";
@@ -21,6 +22,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Hero lang="zh" />
+      <SectionVideo lang="zh" />
       <SectionProblem lang="zh" />
       <SectionBeliefs lang="zh" />
       <SectionFlow lang="zh" />

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { blogCatalog, loadDocument } from "@/lib/content";
 import { DocShell } from "@/components/site/DocShell";
+import { EmbeddedVideo } from "@/components/landing/EmbeddedVideo";
 import { pageAlternates } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -31,6 +32,8 @@ export default async function BlogPost({
   const meta = blogCatalog.en.find((e) => e.slug === slug);
   if (!meta) notFound();
   const { html, toc } = loadDocument("en", "blog", slug);
+  const topSlot =
+    slug === "design-philosophy" ? <EmbeddedVideo lang="en" /> : undefined;
   return (
     <DocShell
       sectionLabel={`blog / ${slug}`}
@@ -41,6 +44,7 @@ export default async function BlogPost({
       html={html}
       toc={toc}
       lang="en"
+      topSlot={topSlot}
     />
   );
 }
