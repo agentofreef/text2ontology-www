@@ -167,7 +167,7 @@ Text2SQL 失败的真正原因不是 LLM 不会写 SQL,是 **LLM 在多表场景
 | 参数 | LLM | 从用户问句里召回 Keyword(召回,不是生成) |
 | **JOIN / SQL 拼装** | **SmartQuery 引擎** | **顺着 Link 自动拼,跟 LLM 无关** |
 
-**LLM 永远看不见 JOIN**。它做的全部是从有限集里"挑",不是"写"。拼装由 `lakehouse-sql-server` 这段后端代码确定性完成。
+**LLM 选 Intent,Intent 拥有路径。引擎不推断 JOIN —— JOIN 是建模时 declarative 选定的。** LLM 做的全部是从有限集里"挑",不是"写"。拼装由 `lakehouse-sql-server` 这段后端代码确定性完成,走的是 Intent 在 propose 时已经钉死的那几条 Link。
 
 ---
 
@@ -228,6 +228,7 @@ ontology 做的不是 Discovery(发现真理),是 Resolution(指定共识):
 1. **OD 必要性** —— 无 active OD 的项目,Query 工具拒绝执行
 2. **OD 1:1 semantic_sql** —— 每个 active OD 有且只有一段 SQL 定义(可引用多张物理表)
 3. **OD 不可孤岛** —— 多于一个 active OD 时,任意 active OD 必须通过至少一条 active Link 与另一个 active OD 关联
+4. **单一路径属于 Intent,不属于引擎** —— 当一对 OD 之间存在多条 Link,**Metric Intent 的声明就是路径的 declarative key**:它的 `(ods, canonical_metric, canonical_filters, auto_group_by)` 在被 propose 的那一刻已经把要走哪几条 Link 钉死了。引擎不推断,不挑路径,只执行 graph walk。没有 Intent 命中的查询返回 `INTENT_NOT_FOUND`,而不是猜一条 —— 路径不确定性被推到建模时由人来 commit,不是运行时由引擎来赌
 
 ### 两个未来工作
 

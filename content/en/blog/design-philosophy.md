@@ -169,7 +169,7 @@ The ontology architecture **physically separates** those three decisions:
 | Parameters | LLM | Recall Keywords from the user's question (recall, not generation) |
 | **JOIN / SQL assembly** | **SmartQuery engine** | **Stitched mechanically along the Links — no LLM involved** |
 
-**The LLM never sees a JOIN.** Everything it does is **picking from finite sets**, not **writing**. Assembly is done deterministically by the backend code in `lakehouse-sql-server`.
+**The LLM picks an Intent; the Intent owns the path. The engine does not infer JOINs — JOINs are declaratively chosen at modeling time.** Everything the LLM does is **picking from finite sets**, not **writing**. Assembly is done deterministically by the backend code in `lakehouse-sql-server`, walking the Links the Intent committed to when it was proposed.
 
 ---
 
@@ -230,6 +230,7 @@ What ontology does is not Discovery (finding truth) — it is **Resolution** (sp
 1. **OD necessity** — a project without active OD: Query tool refuses to execute
 2. **OD 1:1 semantic_sql** — every active OD has exactly one SQL definition (which may reference multiple physical tables)
 3. **No island OD** — when there's more than one active OD, any active OD must be connected to at least one other active OD through at least one active Link
+4. **The path belongs to the Intent, not the engine** — when a pair of OD has more than one Link between them, **the Metric Intent declaration is the declarative key for the path**: its `(ods, canonical_metric, canonical_filters, auto_group_by)` already nailed down which Links to walk at the moment it was proposed. The engine does not infer and does not pick a path — it only executes the graph walk. A query with no Intent hit returns `INTENT_NOT_FOUND` instead of guessing a path. Path ambiguity is pushed to modeling time and committed by a human, not gambled on by the engine at runtime
 
 ### Two future work items
 

@@ -247,7 +247,7 @@ Look back at §4 — the multi-table collapse. The LLM, facing 5 tables and havi
 - pick one Intent, from those bound to the selected ODs
 - pick a few Keywords as parameters, recalled from the user's question
 
-Once those three picks are made, **the LLM's job is over**. The SQL is assembled by the downstream SmartQuery engine, following the Links between ODs — a deterministic piece of backend code, no LLM involved. **The LLM never sees a JOIN, and never "decides" which tables to use**. The multi-table problem is not solved by making the LLM smarter — it is **removed from the LLM's field of view entirely**.
+Once those three picks are made, **the LLM's job is over**. The SQL is assembled by the downstream SmartQuery engine, following the Links between ODs — a deterministic piece of backend code, no LLM involved. I realized later: the LLM has no opportunity to stitch joins in this system — the joins were already nailed down when the Intent was modeled, and the LLM never gets to "decide" which tables to use either. The multi-table problem is not solved by making the LLM smarter — it is **removed from the LLM's field of view entirely**.
 
 **2. There must be a standard metadata spec.** This one grew into 7 core concepts — OD (objects), OK (knowledge), OL (operational facts), Link (relationships between objects), Causality, Intent (query intent), Keyword (trigger words). Each corresponds to a concrete shape of business knowledge that had been overlooked before — what each concept is responsible for is broken down one by one in the *Design Philosophy* essay.
 
