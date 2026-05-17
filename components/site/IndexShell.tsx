@@ -43,7 +43,7 @@ export function IndexShell({
 
   return (
     <main className="min-h-screen pt-24">
-      <section className="mx-auto max-w-[1100px] px-6 py-16">
+      <section className="mx-auto max-w-[1100px] px-6 py-12 md:py-16">
         <div className="mb-10 flex items-center gap-3">
           <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
             ▼// {sectionLabel}
@@ -67,7 +67,7 @@ export function IndexShell({
               <Link
                 key={e.slug}
                 href={`${basePath}/${e.slug}/`}
-                className="group flex flex-col border-l-4 border-l-accent bg-canvas p-10 hover:bg-canvas-alt"
+                className="group flex flex-col border-l-4 border-l-accent bg-canvas p-6 hover:bg-canvas-alt md:p-10"
               >
                 {e.kicker && (
                   <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.22em] text-accent">

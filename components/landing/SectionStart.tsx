@@ -66,7 +66,7 @@ export function SectionStart({ lang }: { lang: Lang }) {
   const c = t[lang];
   return (
     <section className="border-b border-border bg-canvas">
-      <div className="mx-auto max-w-[1600px] px-6 py-28">
+      <div className="mx-auto max-w-[1600px] px-6 py-16 md:py-28">
         <Reveal>
           <div className="mb-12 flex items-center gap-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
@@ -78,7 +78,7 @@ export function SectionStart({ lang }: { lang: Lang }) {
           </div>
         </Reveal>
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
+        <div className="grid gap-8 md:gap-12 lg:grid-cols-2 lg:items-start">
           <Reveal delay={0.05}>
             <h2 className="max-w-[600px] font-sans text-[clamp(2rem,4.5vw,3.75rem)] font-semibold leading-tight tracking-tight text-ink">
               {c.titleA}

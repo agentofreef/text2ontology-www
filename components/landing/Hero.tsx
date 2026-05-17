@@ -70,7 +70,7 @@ export function Hero({ lang }: { lang: Lang }) {
 
       <OntologyMesh />
 
-      <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-20 pt-32">
+      <div className="relative mx-auto w-full max-w-[1600px] px-6 pb-14 pt-28 md:pb-20 md:pt-32">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,7 +86,7 @@ export function Hero({ lang }: { lang: Lang }) {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.5, ease: "linear", delay: 0.4 }}
-          className="my-10 h-0.5 w-16 origin-left bg-ink"
+          className="my-7 h-0.5 w-16 origin-left bg-ink md:my-10"
         />
 
         <motion.p
@@ -113,7 +113,7 @@ export function Hero({ lang }: { lang: Lang }) {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.9, ease: "linear" }}
-          className="mt-12 flex flex-wrap items-center gap-3"
+          className="mt-8 flex flex-wrap items-center gap-3 md:mt-12"
         >
           <Link
             href={lang === "zh" ? "/zh/manifesto/" : "/manifesto/"}

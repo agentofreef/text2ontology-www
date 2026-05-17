@@ -92,7 +92,7 @@ export function SectionProblem({ lang }: { lang: Lang }) {
   const c = t[lang];
   return (
     <section className="border-b border-border bg-canvas">
-      <div className="mx-auto max-w-[1600px] px-6 py-28">
+      <div className="mx-auto max-w-[1600px] px-6 py-16 md:py-28">
         <Reveal>
           <div className="mb-12 flex items-center gap-3">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-text-ghost">
@@ -112,7 +112,7 @@ export function SectionProblem({ lang }: { lang: Lang }) {
           </h2>
         </Reveal>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-2">
+        <div className="mt-10 grid gap-10 md:mt-16 lg:grid-cols-2 lg:gap-12">
           <Reveal delay={0.1}>
             <p className="font-mono text-base leading-relaxed text-text-soft">
               {c.body1}
@@ -127,8 +127,8 @@ export function SectionProblem({ lang }: { lang: Lang }) {
         </div>
 
         <Reveal delay={0.2}>
-          <div className="mt-20 max-w-[1100px] border-l-2 border-accent bg-canvas-alt px-8 py-10">
-            <p className="font-sans text-2xl font-medium leading-snug text-ink md:text-3xl">
+          <div className="mt-14 max-w-[1100px] border-l-2 border-accent bg-canvas-alt px-5 py-7 md:mt-20 md:px-8 md:py-10">
+            <p className="font-sans text-xl font-medium leading-snug text-ink md:text-3xl">
               {c.quote}
             </p>
           </div>

@@ -56,8 +56,8 @@ export function Footer() {
   const c = isZh ? t.zh : t.en;
 
   return (
-    <footer className="border-t border-ink mt-32 bg-canvas-alt">
-      <div className="mx-auto max-w-[1600px] px-6 py-12">
+    <footer className="border-t border-ink mt-20 bg-canvas-alt md:mt-32">
+      <div className="mx-auto max-w-[1600px] px-6 py-10 md:py-12">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.22em]">

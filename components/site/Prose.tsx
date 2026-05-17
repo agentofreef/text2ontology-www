@@ -40,8 +40,11 @@ export function Prose({ html }: { html: string }) {
         "[&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:text-canvas",
         // hr
         "[&_hr]:my-12 [&_hr]:border-0 [&_hr]:border-t [&_hr]:border-border",
-        // tables
-        "[&_table]:my-8 [&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-ink [&_table]:font-mono [&_table]:text-[0.82rem]",
+        // tables — wrap in horizontal-scroll on narrow viewports so wide
+        // tables don't blow out the page; markdown loader injects the
+        // data-table-wrap div around every <table>.
+        "[&_[data-table-wrap]]:my-8 [&_[data-table-wrap]]:max-w-full [&_[data-table-wrap]]:overflow-x-auto [&_[data-table-wrap]]:border-l [&_[data-table-wrap]]:border-r [&_[data-table-wrap]]:border-border md:[&_[data-table-wrap]]:border-0",
+        "[&_table]:w-full [&_table]:border-collapse [&_table]:border [&_table]:border-ink [&_table]:font-mono [&_table]:text-[0.82rem]",
         "[&_thead]:border-b-2 [&_thead]:border-ink [&_thead]:bg-canvas-alt",
         "[&_th]:border [&_th]:border-border-strong [&_th]:px-3 [&_th]:py-2.5 [&_th]:text-left [&_th]:font-semibold [&_th]:uppercase [&_th]:tracking-wider [&_th]:text-ink",
         "[&_td]:border [&_td]:border-border [&_td]:px-3 [&_td]:py-2.5 [&_td]:align-top [&_td]:text-text",

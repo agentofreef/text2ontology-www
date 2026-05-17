@@ -90,10 +90,22 @@ function stripDocHeader(md: string): string {
   return lines.slice(i).join("\n");
 }
 
+/**
+ * Wrap every `<table>` in a horizontal-scroll div so wide tables don't blow
+ * out the page on narrow viewports. The wrapper carries `data-table-wrap`
+ * so Prose can style it without grepping for a class string.
+ */
+function wrapTables(html: string): string {
+  return html.replace(
+    /(<table[\s\S]*?<\/table>)/g,
+    '<div data-table-wrap>$1</div>',
+  );
+}
+
 export function renderMarkdown(md: string): string {
   const body = stripDocHeader(md);
   const html = marked.parse(body, { async: false }) as string;
-  return injectHeadingIds(html, extractToc(body));
+  return wrapTables(injectHeadingIds(html, extractToc(body)));
 }
 
 export function loadAndRender(lang: Lang, section: Section, slug: string): string {

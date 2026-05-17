@@ -43,7 +43,7 @@ export function DocShell({
   return (
     <main className="min-h-screen pt-24">
       <div
-        className={`mx-auto px-6 py-16 ${
+        className={`mx-auto px-6 py-12 md:py-16 ${
           hasToc ? "max-w-[1140px]" : "max-w-[820px]"
         }`}
       >

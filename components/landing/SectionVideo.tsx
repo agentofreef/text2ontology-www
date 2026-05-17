@@ -22,13 +22,13 @@ const t = {
 export function SectionVideo({ lang }: { lang: Lang }) {
   const c = t[lang];
   return (
-    <section className="border-t border-border px-6 py-24">
+    <section className="border-t border-border px-6 py-14 md:py-24">
       <div className="mx-auto max-w-[1080px]">
         <Reveal>
           <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-text-ghost">
             {c.kicker}
           </div>
-          <h2 className="mb-10 font-sans text-[clamp(1.9rem,3.2vw,2.75rem)] font-bold tracking-tight text-ink">
+          <h2 className="mb-6 font-sans text-[clamp(1.9rem,3.2vw,2.75rem)] font-bold tracking-tight text-ink md:mb-10">
             {c.title}
           </h2>
         </Reveal>
