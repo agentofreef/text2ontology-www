@@ -41,8 +41,7 @@ const t = {
         <span className="text-accent">
           the organization slowly accumulates a curated ontology, and the AI
           just reads it.
-        </span>{" "}
-        Not auto-learning.
+        </span>
       </>
     ),
   },
@@ -82,7 +81,7 @@ const t = {
         <span className="text-accent">
           是组织自己花时间沉淀出一套 curated ontology,AI 只是读它
         </span>
-        。不是 auto-learning。
+        。
       </>
     ),
   },

@@ -87,7 +87,7 @@ text2ontology 是一套让企业可以**用自然语言问数据问题、并得�
 │    回答:这些东西怎么连起来                    │
 ├────────────────────────────────────────────────┤
 │  学习层 (Learning)                             │
-│    OL (运营事实,可沉淀为 OK)                  │
+│    OL (运营事实)                               │
 │    回答:运营中学到了什么                      │
 ├────────────────────────────────────────────────┤
 │  入口层 (Entry)                                │
@@ -134,25 +134,9 @@ Level 2: Physical SQL
 
 **OD 与 OK**:OK 必须依附在 OD 上才存在(可以挂到 OD 本身,可以挂到 Property,可以形成 OK 树)。OK 是 OD 的语义补丁。
 
-**OL 与 OK**:OL 是 AI 在对话中提议的事实(`confidence=pending`),BOE 审核后变成 `confirmed`。**多条相似的 OL 在反复确认后,可以沉淀成一条 OK**(从经验抽象成知识)。
+**OL 与 OK**:OL 是 AI 在对话中提议的事实(`confidence=pending`),BOE 审核后变成 `confirmed`。
 
 **Intent 与 Keyword**:Intent 是查询模板(锚定到一个 OD),Keyword 是触发词(指向 property 或 Intent)。它们一起构成 NL 到 deterministic 查询的桥梁。
-
-### OL → OK 沉淀(设计意图,尚未实现)
-
-举例:三条 OL 分别记录"2024-04、2025-04、2026-04 销量都超过 1M"。
-
-```
-AI 周期性聚类相似 OL
-    ↓
-对紧密的 OL 组生成"沉淀候选 OK"
-    例:"4 月历史上是销售旺季,典型在 1M 以上"
-    ↓
-BOE 审核 → 接受则入 OK 表,带 evidence_for_ok 指回原 OL
-原 OL 不删除(audit trail)
-```
-
-**关键原则**:AI 检测模式,**人类决定真理**。归纳问题不能交给算法独立解决,否则会从噪音里幻觉规律。
 
 ### 多表查询为什么不再是问题
 
@@ -221,19 +205,18 @@ ontology 做的不是 Discovery(发现真理),是 Resolution(指定共识):
 
 ---
 
-## 六、三个硬不变量 + 两个未来工作
+## 六、四个硬不变量 + 未来工作
 
-### 三个硬不变量(架构强制,不可被绕过)
+### 四个硬不变量(架构强制,不可被绕过)
 
 1. **OD 必要性** —— 无 active OD 的项目,Query 工具拒绝执行
 2. **OD 1:1 semantic_sql** —— 每个 active OD 有且只有一段 SQL 定义(可引用多张物理表)
 3. **OD 不可孤岛** —— 多于一个 active OD 时,任意 active OD 必须通过至少一条 active Link 与另一个 active OD 关联
 4. **单一路径属于 Intent,不属于引擎** —— 当一对 OD 之间存在多条 Link,**Metric Intent 的声明就是路径的 declarative key**:它的 `(ods, canonical_metric, canonical_filters, auto_group_by)` 在被 propose 的那一刻已经把要走哪几条 Link 钉死了。引擎不推断,不挑路径,只执行 graph walk。没有 Intent 命中的查询返回 `INTENT_NOT_FOUND`,而不是猜一条 —— 路径不确定性被推到建模时由人来 commit,不是运行时由引擎来赌
 
-### 两个未来工作
+### 未来工作
 
-1. **OL → OK 自动沉淀**:聚类 + AI 提议 + BOE 审核的工作流,目前未实现
-2. **解释层版本化**:每个本体单元的描述改动应留下历史,目前未实现
+- **解释层版本化**:每个本体单元的描述改动应留下历史,目前未实现
 
 ### 与外部生态的关系
 

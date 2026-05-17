@@ -89,7 +89,7 @@ Abstract the runtime above into structure, and you get text2ontology's two core 
 │    Answers: how these things connect            │
 ├────────────────────────────────────────────────┤
 │  Learning Layer                                 │
-│    OL (operational facts, can sediment into OK) │
+│    OL (operational facts)                       │
 │    Answers: what was learned in operation       │
 ├────────────────────────────────────────────────┤
 │  Entry Layer                                    │
@@ -136,25 +136,9 @@ Level 2: Physical SQL
 
 **OD and OK**: an OK only exists attached to an OD (can attach to the OD itself, to a Property, or form an OK tree). OK is OD's semantic patch.
 
-**OL and OK**: OL is a fact the AI proposes during a conversation (`confidence=pending`). After BOE review it becomes `confirmed`. **Multiple similar OLs, after repeated confirmations, can sediment into a single OK** (experience abstracted into knowledge).
+**OL and OK**: OL is a fact the AI proposes during a conversation (`confidence=pending`). After BOE review it becomes `confirmed`.
 
 **Intent and Keyword**: Intent is a query template (anchored on one OD). Keyword is a trigger word (points to a property or to an Intent). Together they bridge NL to deterministic queries.
-
-### OL → OK sedimentation (design intent, not yet implemented)
-
-Example: three OLs separately record "April 2024 / April 2025 / April 2026 sales all exceeded 1M."
-
-```
-AI periodically clusters similar OLs
-    ↓
-For tight OL groups, generates a "sedimentation candidate OK"
-    e.g. "April is historically a sales-strong month, typically above 1M"
-    ↓
-BOE reviews → if accepted, written to OK table, with evidence_for_ok pointing back to source OLs
-Source OLs are not deleted (audit trail)
-```
-
-**Key principle**: AI detects patterns, **humans decide truth**. Induction cannot be left to an algorithm in isolation — it will hallucinate regularities out of noise.
 
 ### Why multi-table queries are no longer a problem
 
@@ -223,19 +207,18 @@ What ontology does is not Discovery (finding truth) — it is **Resolution** (sp
 
 ---
 
-## 6. Three hard invariants + two future work items
+## 6. Four hard invariants + future work
 
-### Three hard invariants (enforced by architecture, cannot be bypassed)
+### Four hard invariants (enforced by architecture, cannot be bypassed)
 
 1. **OD necessity** — a project without active OD: Query tool refuses to execute
 2. **OD 1:1 semantic_sql** — every active OD has exactly one SQL definition (which may reference multiple physical tables)
 3. **No island OD** — when there's more than one active OD, any active OD must be connected to at least one other active OD through at least one active Link
 4. **The path belongs to the Intent, not the engine** — when a pair of OD has more than one Link between them, **the Metric Intent declaration is the declarative key for the path**: its `(ods, canonical_metric, canonical_filters, auto_group_by)` already nailed down which Links to walk at the moment it was proposed. The engine does not infer and does not pick a path — it only executes the graph walk. A query with no Intent hit returns `INTENT_NOT_FOUND` instead of guessing a path. Path ambiguity is pushed to modeling time and committed by a human, not gambled on by the engine at runtime
 
-### Two future work items
+### Future work
 
-1. **OL → OK automatic sedimentation**: clustering + AI proposal + BOE review workflow — not yet implemented
-2. **Explanation-layer versioning**: every ontology unit's description should leave a history of edits — not yet implemented
+- **Explanation-layer versioning**: every ontology unit's description should leave a history of edits — not yet implemented
 
 ### Relationship with the surrounding ecosystem
 
