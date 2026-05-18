@@ -19,7 +19,7 @@ export default function BlogIndexZh() {
       basePath="/zh/blog"
       backHref="/zh/"
       backLabel="返回首页"
-      topSlot={<EmbeddedVideo lang="zh" />}
+      topSlot={<EmbeddedVideo lang="zh" variant="architecture" />}
     />
   );
 }

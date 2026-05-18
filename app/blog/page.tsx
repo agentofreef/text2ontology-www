@@ -19,7 +19,7 @@ export default function BlogIndex() {
       basePath="/blog"
       backHref="/"
       backLabel="Back home"
-      topSlot={<EmbeddedVideo lang="en" />}
+      topSlot={<EmbeddedVideo lang="en" variant="architecture" />}
     />
   );
 }

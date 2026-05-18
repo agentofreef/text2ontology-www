@@ -11,34 +11,51 @@ import type { Lang } from "./Hero";
  * autoplay is allowed everywhere. Browser `controls` stay available so
  * the reader can replay / pause.
  *
- * Used by:
- *  - SectionVideo (homepage)
- *  - blog index page (top of /blog/ + /zh/blog/)
- *  - design-philosophy essay (top of the article)
+ * Two `variant`s:
+ *  - "concept"      — the 30s positioning piece (homepage, design-philosophy)
+ *  - "architecture" — the ~55s how-it-works pipeline (blog index)
  */
-const T = {
-  en: {
-    kicker: "▼// 30-second overview",
-    src: "/text2ontology-en.mp4",
-    poster: "/poster-en.png",
+export type VideoVariant = "concept" | "architecture";
+
+const T: Record<VideoVariant, Record<Lang, { kicker: string; src: string; poster: string }>> = {
+  concept: {
+    en: {
+      kicker: "▼// 30-second overview",
+      src: "/text2ontology-en.mp4",
+      poster: "/poster-en.png",
+    },
+    zh: {
+      kicker: "▼// 30 秒看懂",
+      src: "/text2ontology-zh.mp4",
+      poster: "/poster-zh.png",
+    },
   },
-  zh: {
-    kicker: "▼// 30 秒看懂",
-    src: "/text2ontology-zh.mp4",
-    poster: "/poster-zh.png",
+  architecture: {
+    en: {
+      kicker: "▼// how it actually works",
+      src: "/text2ontology-architecture-en.mp4",
+      poster: "/poster-architecture-en.png",
+    },
+    zh: {
+      kicker: "▼// 看懂这套架构怎么跑",
+      src: "/text2ontology-architecture-zh.mp4",
+      poster: "/poster-architecture-zh.png",
+    },
   },
 };
 
 export function EmbeddedVideo({
   lang,
+  variant = "concept",
   kicker,
   showKicker = true,
 }: {
   lang: Lang;
+  variant?: VideoVariant;
   kicker?: string;
   showKicker?: boolean;
 }) {
-  const c = T[lang];
+  const c = T[variant][lang];
   const frameRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const inView = useInView(frameRef, {
