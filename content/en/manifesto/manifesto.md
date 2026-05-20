@@ -72,6 +72,10 @@ It is not a prompt description — prompts cannot be versioned, audited, or CRUD
 
 **Text-to-SQL dies on multi-table queries; the ontology route removes multi-table from the picture entirely.** Letting the LLM freely write SQL falls off a cliff past three tables, because the LLM has to decide "which tables + how to JOIN + how to filter and aggregate" all at once, and any single step going wrong takes the whole answer down. The ontology route lets the LLM **pick OD, pick Intent, pick Keyword from a pre-connected OD network** — three finite-set selections, not generation. The SQL is assembled downstream by the SmartQuery engine along the Links between ODs. **The LLM picks names, not joins.** This is the engineering payoff of "the LLM is only a constrained executor."
 
+**One step further: the LLM also never writes a number across the tool-call chain.** Everything it emits is a **structural reference** like `t1.qty[3]`; the mechanical layer resolves the reference to the true value. The LLM never touches a numeric literal; any "copying value from tool result" is `POINTER_INVARIANT_VIOLATED` at the interceptor. The numbers the user finally sees equal exactly what the tool returned — **the possibility of number fabrication is structurally eliminated**, not via prompt reminders, not via post-hoc LLM self-eval.
+
+**One step further still: before any query runs, the system asks a binary question — can this question be answered at all?** The LLM decomposes it into the dimensions/filters it requires; the system mechanically checks each one against the authorized Intents. Any uncovered → the whole question is `Feasible: false` → **refuse to answer + precise reason**: "no authorized Intent provides the «X» dimension." Binary and whole-question — **rather not answer than answer wrong.** This is the engineering definition of *honesty* in the LLM era.
+
 ---
 
 ## IV. Nine Principles

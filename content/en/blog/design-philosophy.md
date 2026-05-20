@@ -207,14 +207,16 @@ What ontology does is not Discovery (finding truth) — it is **Resolution** (sp
 
 ---
 
-## 6. Four hard invariants + future work
+## 6. Six hard invariants + future work
 
-### Four hard invariants (enforced by architecture, cannot be bypassed)
+### Six hard invariants (enforced by architecture, cannot be bypassed)
 
 1. **OD necessity** — a project without active OD: Query tool refuses to execute
 2. **OD 1:1 semantic_sql** — every active OD has exactly one SQL definition (which may reference multiple physical tables)
 3. **No island OD** — when there's more than one active OD, any active OD must be connected to at least one other active OD through at least one active Link
 4. **The path belongs to the Intent, not the engine** — when a pair of OD has more than one Link between them, **the Metric Intent declaration is the declarative key for the path**: its `(ods, canonical_metric, canonical_filters, auto_group_by)` already nailed down which Links to walk at the moment it was proposed. The engine does not infer and does not pick a path — it only executes the graph walk. A query with no Intent hit returns `INTENT_NOT_FOUND` instead of guessing a path. Path ambiguity is pushed to modeling time and committed by a human, not gambled on by the engine at runtime
+5. **Pointer invariant** — across a multi-step tool-call chain, the LLM **never emits a numeric literal**. It only emits **structural references**: `t1` (a whole table) / `t1.qty` (a column) / `t1.qty[3]` (one cell) / `mABC.t1.qty[3]` (cross-mission). The mechanical layer's `ScanForLiteral` walks every string leaf in subsequent dispatch args / verify / evidence; a hit against the `buildCellIndex` raises `POINTER_INVARIANT_VIOLATED`. The numbers the user finally sees equal exactly what the tool returned — **the LLM never touches a number** — the possibility of number fabrication is structurally eliminated at the compiler layer, not via prompt reminders, not via post-hoc checks
+6. **Reachability gate** — a binary, pre-execution judgment. The LLM decomposes the question into `[]DecompItem` (dimension / filter / metric × shape × why); the system mechanically checks each dimension/filter against the authorized Intents. Any uncovered requirement → `Feasible: false` → the whole question is infeasible → **the system refuses to answer** + emits a precise reason ("no authorized Intent provides the «X» dimension"). Binary and whole-question — **rather not answer than answer wrong**; `AnswerableSubset` is explanatory only ("I could have answered these parts"), never license to run a partial answer
 
 ### Future work
 

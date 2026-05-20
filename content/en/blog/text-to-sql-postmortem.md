@@ -255,7 +255,40 @@ That day, I only saw two principles clearly. The other five were **forced out** 
 
 ---
 
-## 8. Looking Back: Three Sentences I Want to Leave the Reader
+## 8. The Two Gates of M3 — Where the LLM Has No Chance to Be Wrong
+
+I thought the story ended after the previous section. By year three on this path, there was still a final mile to walk — making it **structurally** impossible for the LLM to be wrong. Two mechanical gates, wired into the system's query entry and the LLM's tool-call chain. The LLM cannot bypass either.
+
+**Gate one: the Reachability Gate.** Before any query runs, the system asks a binary question: **given the authorized Intents, can this question be answered at all?**
+
+The LLM decomposes the question into the dimensions, filters, and metrics it needs (`[]DecompItem`); the system mechanically checks each dimension/filter against authorized Intents. Any uncovered → `Feasible: false` → the whole question is infeasible. The system **refuses to answer** and emits a precise reason:
+
+> "No authorized Intent provides the «customer-segment» dimension."
+
+Not wrong. Not partial. **Rather not at all.** `AnswerableSubset` may tell the user "I could have answered these parts," but it is **not** license to run a partial answer. This is the engineering definition of *honesty* in the LLM era — its opposite is not telling the truth, it is admitting you don't know.
+
+**Gate two: the Pointer invariant (the "tape").** Once the system decides to answer, across the multi-step tool-call chain the LLM **never emits a numeric literal**, only **structural references**:
+
+```
+t1               ← a whole table
+t1.qty           ← a column
+t1.qty[3]        ← one cell
+mABC.t1.qty[3]   ← cross-mission
+```
+
+In any subsequent dispatch args / verify / evidence, any string leaf that equals a known cell value triggers `POINTER_INVARIANT_VIOLATED` at the mechanical layer — the LLM trying to sneak a copied value through? Caught at compile time. The frontend resolves the reference to the true value on render. The numbers the user finally sees equal exactly what the tool returned — **the LLM never touches a number.**
+
+Combined, the two gates promise this:
+
+> **When the LLM can't answer, the system refuses + says exactly why; when the LLM does answer, the numbers are guaranteed not to be its own invention.**
+
+This is the last mile from "find every way to make the LLM right" to "make sure the LLM has no chance to be wrong."
+
+Two years ago, my VP's one sentence — I only understood later what it was actually asking. It wasn't asking about the model. It was asking about the structure. The two gates in the system now are that sentence's final answer.
+
+---
+
+## 9. Looking Back: Three Sentences I Want to Leave the Reader
 
 Looking back after writing this essay, I want to compress that year into three sentences.
 

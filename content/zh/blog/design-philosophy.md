@@ -205,14 +205,16 @@ ontology 做的不是 Discovery(发现真理),是 Resolution(指定共识):
 
 ---
 
-## 六、四个硬不变量 + 未来工作
+## 六、六个硬不变量 + 未来工作
 
-### 四个硬不变量(架构强制,不可被绕过)
+### 六个硬不变量(架构强制,不可被绕过)
 
 1. **OD 必要性** —— 无 active OD 的项目,Query 工具拒绝执行
 2. **OD 1:1 semantic_sql** —— 每个 active OD 有且只有一段 SQL 定义(可引用多张物理表)
 3. **OD 不可孤岛** —— 多于一个 active OD 时,任意 active OD 必须通过至少一条 active Link 与另一个 active OD 关联
 4. **单一路径属于 Intent,不属于引擎** —— 当一对 OD 之间存在多条 Link,**Metric Intent 的声明就是路径的 declarative key**:它的 `(ods, canonical_metric, canonical_filters, auto_group_by)` 在被 propose 的那一刻已经把要走哪几条 Link 钉死了。引擎不推断,不挑路径,只执行 graph walk。没有 Intent 命中的查询返回 `INTENT_NOT_FOUND`,而不是猜一条 —— 路径不确定性被推到建模时由人来 commit,不是运行时由引擎来赌
+5. **Pointer 不变量** —— LLM 在多步工具调用链中**全程不输出数值字面量**,只输出**结构化引用**:`t1`(整张表) / `t1.qty`(列) / `t1.qty[3]`(单元格) / `mABC.t1.qty[3]`(跨 mission)。 机械层 `ScanForLiteral` 遍历后续 dispatch args / verify / evidence 的每个字符串叶子,命中 `buildCellIndex` 索引就抛 `POINTER_INVARIANT_VIOLATED`。 用户最终看到的数字 = 工具调用真实返回,**LLM 全程不经手数字** —— 数字伪造的可能性在编译器层被结构性消除,不是靠 prompt 提醒,不是靠后处理检查
+6. **任务可达性 gate** —— 决断式 binary 判定,跑在 querying 之前。 LLM 把问题分解成 `[]DecompItem`(dimension / filter / metric × shape × why),系统**机械地**对每个 dimension/filter 检查"在已授权 Intents 里是否被覆盖"。 任何一个未覆盖 → `Feasible: false` → 整条 infeasible → **系统拒答** + 精确归因("没有任何已授权指标提供「X」这个维度")。 二元 + 整体,**宁可不答,不准乱答**;`AnswerableSubset` 仅作"我本来能答这几个"解释,不允许执行 partial answer
 
 ### 未来工作
 

@@ -6,14 +6,14 @@
     <atom:link href="https://text2ontology.com/zh/rss.xml" rel="self" type="application/rss+xml" />
     <description>关于 AI / 数据 / 本体的长文。架构、商业 thesis、对主流 Agentic Data Analyst 的反驳。</description>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 18 May 2026 03:48:58 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 07:25:34 GMT</lastBuildDate>
     <managingEditor>redeemer@vip.163.com (AgentOfReef)</managingEditor>
     <webMaster>redeemer@vip.163.com (AgentOfReef)</webMaster>
     <item>
       <title>设计哲学</title>
       <link>https://text2ontology.com/zh/blog/design-philosophy/</link>
       <guid isPermaLink="true">https://text2ontology.com/zh/blog/design-philosophy/</guid>
-      <pubDate>Sun, 17 May 2026 22:23:22 GMT</pubDate>
+      <pubDate>Wed, 20 May 2026 07:20:14 GMT</pubDate>
       <description>三层本体 + 两层查询 + 一次召回 这是整篇文章的主线。先看完整流程,再看每一步背后的设计。 这套流程的核心洞察: &quot;分词 + 召回&quot;是 deterministic 的(后端 SQL 代码,无 LLM)。 LLM 是受约束的执行者,不是真理来源 —— 它只能从召回上下文里挑、填参数、调工具。 这就是 text2ontology 跟&quot;AI Agent 自由发挥&quot;路线的本质区别。 把上面的运行时抽象成结构,就得到 text2ontology 的两个核心 framework: 层内灵活组合,层间单向依赖 —— 入口层引用存在层,关联层在存在层之上,学习层是产物。 两层架构的本质:把&quot;变化的成本&quot;按层分配。schema 变只改 OD 的 …</description>
     </item>
     <item>

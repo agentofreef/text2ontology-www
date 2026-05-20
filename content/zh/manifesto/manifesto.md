@@ -72,6 +72,10 @@ Snowflake Cortex、Databricks Genie、Cube、dbt + LookML —— 这些方案都
 
 **Text2SQL 死在多表,本体路线把多表整个抽走**。让 LLM 自由写 SQL 的方案在 3 张表以上准确率断崖,因为 LLM 要同时决定"用哪张表 + 怎么 JOIN + 怎么写过滤聚合",任何一步错就全错。本体路线让 LLM **只在已经预先连好的 OD 网络里挑 OD、挑 Intent、挑 Keyword** —— 三件事都是有限集里的选择,不是生成。SQL 由后面的 SmartQuery 引擎顺着 OD 之间的 Link 自动拼出来。**LLM 选名字,不写连接。** 这才是"LLM 只是受约束的执行者"的工程兑现。
 
+**更进一步:LLM 在工具调用链中也不写数字。** 它输出的全是 `t1.qty[3]` 这种**结构化引用**,前端机械层按引用 substitute 成真值。 LLM 全程不经手数字字面量;任何"copying value from tool result"在拦截器里就是 `POINTER_INVARIANT_VIOLATED`。 用户最终看到的数字 = 工具真实返回 —— **数字伪造的可能性被结构性消除**,不是靠 prompt 提醒,不是靠后处理 LLM 自评。
+
+**再进一步:查询开始之前,系统先问一个 binary 问题 —— 这个问题能不能答?** LLM 把问题分解成需要哪些维度、哪些过滤,系统机械地对每个维度检查"是否被某个已授权 Intent 覆盖"。 任何一个未覆盖 → 整条 `Feasible: false` → **拒答 + 精确归因**:"没有任何已授权指标提供「X」这个维度。" 二元 + 整体,**宁可不答,不准乱答**。 这是 LLM 时代"诚实"的工程定义。
+
 ---
 
 ## 四、九条原则
