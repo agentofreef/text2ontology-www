@@ -6,39 +6,60 @@
 
 After you sign in and select a project, the sidebar groups as follows (with no project selected, only the System group shows).
 
+```mermaid
+mindmap
+  root(("text2ontology"))
+    Data Assets
+      Lakehouse
+      Ontology
+    Knowledge Engineering
+      Keywords
+      Keyword Triage
+      Metrics
+    Agent
+      Lakehouse Agent
+      Chat History
+      Annotations
+      Token Recall
+      Learned Knowledge
+      Dataset Testing
+      Data Flywheel
+    SQL
+      Ontology SQL
+      Lakehouse SQL
+    System
+      Data Sources
+      LLM Config
+      MCP Keys
+      Preferences
+      User Management
 ```
-text2ontology
-[project switcher]  ← top-left: switch / new / delete project
 
-Data Assets
-  · Lakehouse       /ontology/lakehouse
-  · Ontology        /ontology/lakehouse-objects   (OD list + property graph, merged view)
+> The **project switcher** sits top-left (switch / new / delete project).
 
-Knowledge Engineering
-  · Keywords        /ontology/lakehouse-keywords
-  · Keyword Triage  /ontology/lakehouse-keyword-triage
-  · Metrics         /ontology/lakehouse-metric-intents
+**Route reference**
 
-Agent
-  · Lakehouse Agent /ontology/lakehouse-agent          ← main chat (lakehouse / builder)
-  · Chat History    /ontology/lakehouse-agent/history
-  · Annotations     /ontology/lakehouse-agent/annotations
-  · Token Recall    /ontology/lakehouse-agent/token-recall
-  · Learned Knowledge /ontology/lakehouse-agent/knowledge-learned
-  · Dataset Testing /ontology/lakehouse-agent/dataset-testing
-  · Data Flywheel   /ontology/lakehouse-agent/flywheel
-
-SQL
-  · Ontology SQL    /ontology/sql-passthrough
-  · Lakehouse SQL   /ontology/lakehouse-sql
-
-System
-  · Data Sources    /settings/data-sources
-  · LLM Config      /settings/llm-config
-  · MCP Keys        /settings/mcp-keys
-  · Preferences     /settings/preferences
-  · User Management /settings/users   (admin only)
-```
+| Group | Page | Route |
+|---|---|---|
+| Data Assets | Lakehouse | `/ontology/lakehouse` |
+| Data Assets | Ontology (OD list + property graph) | `/ontology/lakehouse-objects` |
+| Knowledge Engineering | Keywords | `/ontology/lakehouse-keywords` |
+| Knowledge Engineering | Keyword Triage | `/ontology/lakehouse-keyword-triage` |
+| Knowledge Engineering | Metrics | `/ontology/lakehouse-metric-intents` |
+| Agent | Lakehouse Agent (main chat) | `/ontology/lakehouse-agent` |
+| Agent | Chat History | `/ontology/lakehouse-agent/history` |
+| Agent | Annotations | `/ontology/lakehouse-agent/annotations` |
+| Agent | Token Recall | `/ontology/lakehouse-agent/token-recall` |
+| Agent | Learned Knowledge | `/ontology/lakehouse-agent/knowledge-learned` |
+| Agent | Dataset Testing | `/ontology/lakehouse-agent/dataset-testing` |
+| Agent | Data Flywheel | `/ontology/lakehouse-agent/flywheel` |
+| SQL | Ontology SQL | `/ontology/sql-passthrough` |
+| SQL | Lakehouse SQL | `/ontology/lakehouse-sql` |
+| System | Data Sources | `/settings/data-sources` |
+| System | LLM Config | `/settings/llm-config` |
+| System | MCP Keys | `/settings/mcp-keys` |
+| System | Preferences | `/settings/preferences` |
+| System | User Management (admin only) | `/settings/users` |
 
 ## Group by group
 

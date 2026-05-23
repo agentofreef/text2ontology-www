@@ -46,25 +46,21 @@ Makefile 里也有等价封装:`make up` / `make down` / `make health` / `make l
 
 8 个镜像(网关 + 前端 + 6 个 Go 服务)+ Postgres + 可观测栈。**只有网关对外暴露端口 `28080`**,其余只在 Docker 内网可达。
 
-```
-                  浏览器
-                    │
-            ┌───────▼────────┐
-            │  gateway :28080 │  nginx,唯一公开入口,按路径反代
-            └───────┬────────┘
-   ┌─────────┬──────┼───────┬──────────────┐
-   ▼         ▼      ▼       ▼              ▼
-frontend  backend  agent   recall     collector
-:8080    -api      -server -server    -server
-Next.js  :8090     :8092   :8093      :8096
-         本体CRUD  AI Agent 三级召回   数据接入
-                    │       │
-                    ▼       ▼
-         lakehouse-sql-server :8094   mcp-tools-server :8095
-         SmartQuery 引擎(本体→SQL)   MCP 网关
-                    │
-                    ▼
-            Postgres + pgvector(单一事实来源)
+```mermaid
+flowchart TD
+  B(["浏览器"]) --> GW["gateway :28080<br/>nginx · 唯一公开入口,按路径反代"]
+  GW --> FE["frontend :8080"]
+  GW --> API["backend-api :8090<br/>本体 CRUD · 鉴权 · 项目"]
+  GW --> AG["agent-server :8092<br/>AI Agent"]
+  GW --> RC["recall-server :8093<br/>三级召回"]
+  GW --> CO["collector-server :8096<br/>数据接入"]
+  AG --> SQL["lakehouse-sql-server :8094<br/>SmartQuery 引擎(本体→SQL)"]
+  AG --> RC
+  API --> SQL
+  MCP["mcp-tools-server :8095<br/>MCP 网关"] --> SQL
+  MCP --> RC
+  SQL --> PG[("Postgres + pgvector<br/>单一事实来源")]
+  CO --> PG
 ```
 
 各服务职责(端口均为**内网**端口):
@@ -99,4 +95,4 @@ Next.js  :8090     :8092   :8093      :8096
 
 侧边栏左上角是**项目切换器**。点开 → 「新建项目」会进入 `/setup-wizard`。每个项目是一套独立的本体 + 数据 + 权限边界(所有 `ont_*` / `lakehouse_*` 表都带 `project_id`)。
 
-下一步:**[接入数据源](/zh/docs/data-sources/)**。
+下一步:**[配置流程与协作分工](/zh/docs/workflow/)**——先看三步法和业务/技术分工,再动手配置。

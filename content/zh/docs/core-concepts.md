@@ -23,11 +23,26 @@
 
 ## 三层本体生命周期
 
-```
-存在层  OD(对象)        OK(知识)         —— 业务里「有什么」
-连接层  Link(OD↔OD)     Causality(OK↔OK) —— 这些东西「怎么连」
-学习层  OL(运行中习得,可沉淀为 OK)        —— 运行中「学到了什么」
-入口层  指标 + 关键词                       —— 自然语言「怎么进来」
+```mermaid
+flowchart TD
+  subgraph entry["入口层 · 自然语言怎么进来"]
+    M["指标 Metric"]
+    K["关键词 Keyword"]
+  end
+  subgraph conn["连接层 · 概念怎么连"]
+    L["Link（OD↔OD）"]
+    C["Causality（OK↔OK）"]
+  end
+  subgraph exist["存在层 · 业务里有什么"]
+    OD["OD 对象"]
+    OK["OK 知识"]
+  end
+  subgraph learn["学习层 · 运行中学到什么"]
+    OL["OL 习得事实"]
+  end
+  entry --> exist
+  conn --> exist
+  OL -. 沉淀 .-> OK
 ```
 
 依赖**单向向下**:入口层引用存在层,连接层架在存在层之上,学习层是副产品。
@@ -57,8 +72,9 @@ Text-to-SQL 真正失败的原因不是 LLM 不会写 SQL,而是在多表查询�
 
 用户每问一句话,系统**强制分词**,每个 token 走三级级联匹配:
 
-```
-EXACT(精确匹配) → FUZZY(模糊匹配) → VECTOR(向量语义匹配)
+```mermaid
+flowchart LR
+  T["token"] --> E["EXACT 精确匹配"] --> F["FUZZY 模糊匹配"] --> V["VECTOR 向量语义匹配"]
 ```
 
 > **「分词 + 召回」是确定性的后端 SQL 代码,没有 LLM。**

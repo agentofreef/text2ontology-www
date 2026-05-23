@@ -1,40 +1,54 @@
-# 纠错飞轮
+# 调试循环
 
-> 每个错误都有地址。去哪打开它、修一次、不再见到同一个错。
+> 每个错误都有地址。先查分词,再查 OD,再查描述,最后查 SQL——一棵决策树。
 
 ---
 
-答错时,不要重试或换 prompt——去**对应的地址**修一次。相关页面都在侧边栏。
+答错时,不要重试、不要换 prompt。每个错误都有一个**地址**——沿着下面这棵决策树,找到它、修一次。
 
-## 现象 → 去哪修
+## 决策树:从分词往下查
+
+### ① 第一反应:查分词
+
+**当用户的提问和你的预期不符、或者干脆查不出数据时,你的第一反应应该是检查分词对不对。**
+
+分词是整套系统的命门(60%+ 的环节依赖它)。它的作用是**让大语言模型理解你问题里的关键词**;关键词对了,系统才能反推出正确的本体和属性。
+
+去 **Agent → Token 召回**(`/ontology/lakehouse-agent/token-recall`)看这句话被怎么分词、召回到了什么;去 **知识工程 → 关键词分诊**(`/ontology/lakehouse-keyword-triage`)补缺词、纠别名、调优先级。
+
+> **关于分词的实话**:目前分词还没有一个特别好的通用办法。当你的领域很特定、或问题涉及复杂的专有关键词时,坦率讲没有银弹——这就是为什么它是你最该花时间盯的地方。
+
+### ② 分词对了还是错 → 查 LLM 找到的 OD 对不对
+
+如果分词一切正确、但结果依然有问题,**下一步去看大语言模型找到的本体(OD)对不对。**
+
+### ③ OD 不对 → 回头看本体描述
+
+如果它找到的本体本身就不对,**回去重新考虑:你在本体上的(自然语言)描述是否正确?** 描述是 Agent 理解本体的依据(见 [第 2 步](/zh/docs/builder-mode/));描述含糊或有歧义,OD 就会被选错。
+
+### ④ OD 对了但数不对 → 查属性 / 表 / SQL / 主外键
+
+如果找到的本体也对,但**查出来的数有问题**,那说明问题出在更下层:**本体的属性,或属性对应的数据库表本身,可能有问题。** 这时静下心来逐项查:
+
+- `semantic_sql`(描述 SQL)写得对不对?
+- 表与表的**主外键 / 关联键**连得对不对?
+- 本体、以及本体维度的**文字描述**能不能再优化?
+- 是不是有**概念重叠**(两个本体描述的其实是同一件事)?
+
+> 概念重叠往往是隐蔽的错误源。如果发现重叠,回到 [第 2 步](/zh/docs/builder-mode/) 的"概念融合"原则:能融合成一个本体就别拆。
+
+## 现象 → 去哪修(速查)
 
 | 现象 | 去哪修 | 页面 |
 |---|---|---|
-| 分词不对 / 系统没看懂某个词 | **关键词分诊**:补缺失关键词、纠正错别名、调整指标优先级 | `知识工程 → 关键词分诊`(`/ontology/lakehouse-keyword-triage`) |
-| 现有指标都覆盖不了某个分析维度 | **指标**:新建一个全新指标(度量 / 过滤 / 自动分组 / 透视) | `知识工程 → 指标`(`/ontology/lakehouse-metric-intents`) |
-| 关键词本身要增删改 | **关键词** | `知识工程 → 关键词`(`/ontology/lakehouse-keywords`) |
-| 想看「这句话被怎么分词、召回到了什么」 | **Token 召回**:复现召回过程,定位是哪一层(EXACT/FUZZY/VEC)、哪个 keyword | `Agent → Token 召回`(`/ontology/lakehouse-agent/token-recall`) |
-| 给某次 Agent 的 token 决策打标注 | **标注** | `Agent → 标注`(`/ontology/lakehouse-agent/annotations`) |
-| AI 在对话里习得的事实(OL) | **习得知识** | `Agent → 习得知识`(`/ontology/lakehouse-agent/knowledge-learned`) |
-| 想批量回归测试一组问题、版本间对比 | **数据集测试**:命名测试套件,后台跑,看 run 间 diff | `Agent → 数据集测试`(`/ontology/lakehouse-agent/dataset-testing`) |
+| 分词不对 / 没看懂某个词 | **关键词分诊** | `/ontology/lakehouse-keyword-triage` |
+| 想看分词与召回过程 | **Token 召回** | `/ontology/lakehouse-agent/token-recall` |
+| 现有指标覆盖不了某维度 | **指标**(新建) | `/ontology/lakehouse-metric-intents` |
+| 关键词增删改 | **关键词** | `/ontology/lakehouse-keywords` |
+| OD 描述 / semantic_sql / 属性 / Link | **本体** | `/ontology/lakehouse-objects` |
+| 给 Agent 决策打标注 | **标注** | `/ontology/lakehouse-agent/annotations` |
+| 批量回归、版本间对比 | **数据集测试** | `/ontology/lakehouse-agent/dataset-testing` |
 
-## 这是和传统 BI 最大的不同
+## 为什么值得
 
-你要 **curate(策展)、annotate(标注)、activate(激活)**。它不会十五分钟开箱即用。
-
-但代价换来的是:**一旦一个答案被修对,它就保持对**——因为错误有地址,修在那里,同一类错误下周不会再回来。这是传统 BI 给不了的东西。
-
-## 两条最常用的纠错路径
-
-引用 README 的原话:
-
-> - **关键词分诊页**是你修分词的地方——确保 LLM 看到的词,和你团队用的词是一致的。
-> - **指标页**是当现有指标都覆盖不了某个分析维度时,你新增一个的地方。
-
-## 其它工具页
-
-- **对话历史**(`/ontology/lakehouse-agent/history`)
-- **数据飞轮**(`/ontology/lakehouse-agent/flywheel`)
-- SQL 组里的 **Ontology SQL**(`/ontology/sql-passthrough`)和 **Lakehouse SQL**(`/ontology/lakehouse-sql`)给进阶用户。
-
-完整界面地图见 **[界面参考](/zh/docs/interface-reference/)**。
+你要 curate(策展)、annotate(标注)、activate(激活),它不会十五分钟开箱即用。换来的是:**一旦一个答案被修对,它就保持对**——因为错误有地址,修在那里,同一类错误下周不会再回来。这是传统 BI 给不了的。

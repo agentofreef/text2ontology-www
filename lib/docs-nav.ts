@@ -44,16 +44,28 @@ export const docsPages: Record<DocLang, DocPage[]> = {
         "Bring the whole stack up with one command, sign in, configure an LLM, and create a project.",
     },
     {
+      slug: "workflow",
+      title: "Setup & Collaboration",
+      subtitle:
+        "The three-step setup — data, ontology, question set — and how business and technical people divide and share the work.",
+    },
+    {
       slug: "data-sources",
-      title: "Connecting a Data Source",
+      title: "Step 1 · Connect Data Sources",
       subtitle:
         "PBIX (the primary path), PBIT, Excel / CSV, Postgres, SQLite — and what happens after upload.",
     },
     {
       slug: "builder-mode",
-      title: "Builder Mode: Model Your Business",
+      title: "Step 2 · Ontology Modeling",
       subtitle:
-        "Walk the agent through your business in plain language, review the draft ontology, and activate it.",
+        "Map business concepts to data: each concept is an OD, its dimensions are properties, its relationships are Links — with one semantic table behind each.",
+    },
+    {
+      slug: "question-sets",
+      title: "Step 3 · Question Sets",
+      subtitle:
+        "Define the correct answers that measure success, run your first pass, and why tokenization is the first thing you check.",
     },
     {
       slug: "query-mode",
@@ -63,9 +75,9 @@ export const docsPages: Record<DocLang, DocPage[]> = {
     },
     {
       slug: "correction-flywheel",
-      title: "The Correction Flywheel",
+      title: "The Debug Loop",
       subtitle:
-        "Every wrong answer has an address. Where to open it, fix it once, and stop seeing the same error.",
+        "Every wrong answer has an address. Tokenization first, then the OD, then descriptions, then the SQL — a decision tree.",
     },
     {
       slug: "interface-reference",
@@ -102,14 +114,24 @@ export const docsPages: Record<DocLang, DocPage[]> = {
       subtitle: "一条命令拉起整套栈,登录、配置 LLM、创建项目。",
     },
     {
+      slug: "workflow",
+      title: "配置流程与协作分工",
+      subtitle: "三步配置法——数据源、本体、问题集——以及业务人员与技术人员如何分工协作。",
+    },
+    {
       slug: "data-sources",
-      title: "接入数据源",
+      title: "第 1 步 · 接入数据源",
       subtitle: "PBIX(主路径)、PBIT、Excel / CSV、Postgres、SQLite——以及上传之后发生了什么。",
     },
     {
       slug: "builder-mode",
-      title: "Builder 模式:为业务建模",
-      subtitle: "用大白话把业务讲给 Agent,审阅草稿本体,激活它。",
+      title: "第 2 步 · 本体建模",
+      subtitle: "把业务概念映射到数据:每个概念是一个 OD,维度是属性,关系是 Link,每个 OD 背后一张语义表。",
+    },
+    {
+      slug: "question-sets",
+      title: "第 3 步 · 问题集",
+      subtitle: "定义衡量成败的『正确答案』,跑通第一遍,以及为什么分词是你第一个要检查的东西。",
     },
     {
       slug: "query-mode",
@@ -118,8 +140,8 @@ export const docsPages: Record<DocLang, DocPage[]> = {
     },
     {
       slug: "correction-flywheel",
-      title: "纠错飞轮",
-      subtitle: "每个错误都有地址。去哪打开它、修一次、不再见到同一个错。",
+      title: "调试循环",
+      subtitle: "每个错误都有地址。先查分词,再查 OD,再查描述,最后查 SQL——一棵决策树。",
     },
     {
       slug: "interface-reference",
@@ -144,17 +166,19 @@ export const docsGroups: Record<DocLang, DocGroup[]> = {
   en: [
     { label: "Getting Started", slugs: ["introduction", "core-concepts", "installation"] },
     {
-      label: "Using text2ontology",
-      slugs: ["data-sources", "builder-mode", "query-mode", "correction-flywheel"],
+      label: "Configuring the System",
+      slugs: ["workflow", "data-sources", "builder-mode", "question-sets"],
     },
+    { label: "Querying & Debugging", slugs: ["query-mode", "correction-flywheel"] },
     { label: "Reference", slugs: ["interface-reference", "production", "faq"] },
   ],
   zh: [
     { label: "开始", slugs: ["introduction", "core-concepts", "installation"] },
     {
-      label: "使用",
-      slugs: ["data-sources", "builder-mode", "query-mode", "correction-flywheel"],
+      label: "配置系统",
+      slugs: ["workflow", "data-sources", "builder-mode", "question-sets"],
     },
+    { label: "提问与调试", slugs: ["query-mode", "correction-flywheel"] },
     { label: "参考", slugs: ["interface-reference", "production", "faq"] },
   ],
 };

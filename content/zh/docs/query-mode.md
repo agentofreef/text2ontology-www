@@ -8,15 +8,17 @@
 
 ## 一次提问内部发生了什么
 
-```
-你问「X11 产品在各地区的早单率怎么样?」
-  → 强制分词
-  → 三级召回(EXACT/FUZZY/VEC):召回相关 OD、指标、关键词
-  → 组装上下文喂给 LLM(明确告诉它:你能用的就是 Lookup 和 Query 两个工具)
-  → LLM 决策:直接 Query(填参) / 先 Lookup 查细节 / 直接回答
-  → LLM 只能填 {指标, 参数},不能拼 SQL
-  → SmartQuery 引擎沿 Link 自动拼 JOIN、生成 Postgres SQL、执行、返回行
-  → LLM 读结果,生成自然语言答案
+```mermaid
+flowchart TD
+  Q["用户提问<br/>「X11 在各地区的早单率?」"] --> TOK["强制分词"]
+  TOK --> RC["三级召回 EXACT/FUZZY/VEC<br/>召回 OD、指标、关键词"]
+  RC --> CTX["组装上下文喂给 LLM<br/>工具仅 Lookup / Query"]
+  CTX --> DEC{"LLM 决策"}
+  DEC -->|填参| QY["Query：填 {指标, 参数}<br/>不能拼 SQL"]
+  DEC -->|查细节| LK["Lookup"]
+  LK --> QY
+  QY --> ENG["SmartQuery 引擎<br/>沿 Link 拼 JOIN → SQL → 执行"]
+  ENG --> ANS["LLM 读结果<br/>→ 自然语言答案"]
 ```
 
 ## 两个对用户很关键的「诚实机制」

@@ -8,15 +8,17 @@ With the ontology active, switch to **lakehouse (query) mode** in **Agent → La
 
 ## What happens inside one question
 
-```
-You ask "How's the early-order rate for X11 across geos?"
-  → force tokenization
-  → three-tier recall (EXACT/FUZZY/VEC): recall relevant ODs, Metrics, Keywords
-  → assemble context for the LLM (told explicitly: your only tools are Lookup and Query)
-  → LLM decides: Query directly (fill params) / Lookup first / answer directly
-  → LLM can only fill {metric, params}, never assemble SQL
-  → SmartQuery engine stitches JOINs along Links, emits Postgres SQL, runs it, returns rows
-  → LLM reads the result, writes the natural-language answer
+```mermaid
+flowchart TD
+  Q["user question<br/>'early-order rate for X11 across geos?'"] --> TOK["force tokenization"]
+  TOK --> RC["3-tier recall EXACT/FUZZY/VEC<br/>recall ODs, Metrics, Keywords"]
+  RC --> CTX["assemble context for the LLM<br/>tools: Lookup / Query only"]
+  CTX --> DEC{"LLM decides"}
+  DEC -->|fill params| QY["Query: fill {metric, params}<br/>never assembles SQL"]
+  DEC -->|look up| LK["Lookup"]
+  LK --> QY
+  QY --> ENG["SmartQuery engine<br/>stitch JOINs along Links → SQL → run"]
+  ENG --> ANS["LLM reads result<br/>→ natural-language answer"]
 ```
 
 ## Two honesty mechanisms that matter to users

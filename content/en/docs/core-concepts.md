@@ -23,11 +23,26 @@ This is the ontology vocabulary. You don't need all of it, but **you do need OD,
 
 ## Three-layer ontology lifecycle
 
-```
-Existence   OD (object)       OK (knowledge)     — what exists in the business
-Connection  Link (OD↔OD)      Causality (OK↔OK)  — how they connect
-Learning    OL (learned in operation → OK)       — what was learned at runtime
-Entry       Metric + Keyword                     — how natural language enters
+```mermaid
+flowchart TD
+  subgraph entry["Entry · how language enters"]
+    M["Metric"]
+    K["Keyword"]
+  end
+  subgraph conn["Connection · how they connect"]
+    L["Link (OD↔OD)"]
+    C["Causality (OK↔OK)"]
+  end
+  subgraph exist["Existence · what exists"]
+    OD["OD (object)"]
+    OK["OK (knowledge)"]
+  end
+  subgraph learn["Learning · learned at runtime"]
+    OL["OL (learned-fact)"]
+  end
+  entry --> exist
+  conn --> exist
+  OL -. sediments .-> OK
 ```
 
 Dependencies flow **one way, downward**: Entry references Existence, Connection sits on Existence, Learning is a byproduct.
@@ -57,8 +72,9 @@ The ontology architecture **physically separates** those decisions:
 
 Every question is **force-tokenized**; each token runs three cascading tiers:
 
-```
-EXACT → FUZZY → VECTOR (semantic)
+```mermaid
+flowchart LR
+  T["token"] --> E["EXACT"] --> F["FUZZY"] --> V["VECTOR (semantic)"]
 ```
 
 > **"Tokenize + recall" is deterministic backend SQL code, no LLM.**

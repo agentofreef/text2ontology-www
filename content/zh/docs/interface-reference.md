@@ -6,39 +6,60 @@
 
 登录并选中一个项目后,侧边栏分组如下(没选项目时只显示「系统」组)。
 
+```mermaid
+mindmap
+  root(("text2ontology"))
+    数据资产
+      湖仓
+      本体
+    知识工程
+      关键词
+      关键词分诊
+      指标
+    Agent
+      湖仓 Agent
+      对话历史
+      标注
+      Token 召回
+      习得知识
+      数据集测试
+      数据飞轮
+    SQL
+      Ontology SQL
+      Lakehouse SQL
+    系统
+      数据源
+      LLM 配置
+      MCP 密钥
+      偏好
+      用户管理
 ```
-text2ontology
-[项目切换器]  ← 左上,切换/新建/删除项目
 
-数据资产
-  · 湖仓            /ontology/lakehouse
-  · 本体            /ontology/lakehouse-objects   (OD 列表 + 属性图,合并视图)
+> 左上角是**项目切换器**(切换 / 新建 / 删除项目)。
 
-知识工程
-  · 关键词          /ontology/lakehouse-keywords
-  · 关键词分诊      /ontology/lakehouse-keyword-triage
-  · 指标            /ontology/lakehouse-metric-intents
+**路由速查**
 
-Agent
-  · 湖仓 Agent      /ontology/lakehouse-agent          ← 主对话(湖仓/构建模式)
-  · 对话历史        /ontology/lakehouse-agent/history
-  · 标注            /ontology/lakehouse-agent/annotations
-  · Token 召回      /ontology/lakehouse-agent/token-recall
-  · 习得知识        /ontology/lakehouse-agent/knowledge-learned
-  · 数据集测试      /ontology/lakehouse-agent/dataset-testing
-  · 数据飞轮        /ontology/lakehouse-agent/flywheel
-
-SQL
-  · Ontology SQL    /ontology/sql-passthrough
-  · Lakehouse SQL   /ontology/lakehouse-sql
-
-系统
-  · 数据源          /settings/data-sources
-  · LLM 配置        /settings/llm-config
-  · MCP 密钥        /settings/mcp-keys
-  · 偏好            /settings/preferences
-  · 用户管理        /settings/users   (仅管理员可见)
-```
+| 分组 | 页面 | 路由 |
+|---|---|---|
+| 数据资产 | 湖仓 | `/ontology/lakehouse` |
+| 数据资产 | 本体(OD 列表 + 属性图) | `/ontology/lakehouse-objects` |
+| 知识工程 | 关键词 | `/ontology/lakehouse-keywords` |
+| 知识工程 | 关键词分诊 | `/ontology/lakehouse-keyword-triage` |
+| 知识工程 | 指标 | `/ontology/lakehouse-metric-intents` |
+| Agent | 湖仓 Agent(主对话) | `/ontology/lakehouse-agent` |
+| Agent | 对话历史 | `/ontology/lakehouse-agent/history` |
+| Agent | 标注 | `/ontology/lakehouse-agent/annotations` |
+| Agent | Token 召回 | `/ontology/lakehouse-agent/token-recall` |
+| Agent | 习得知识 | `/ontology/lakehouse-agent/knowledge-learned` |
+| Agent | 数据集测试 | `/ontology/lakehouse-agent/dataset-testing` |
+| Agent | 数据飞轮 | `/ontology/lakehouse-agent/flywheel` |
+| SQL | Ontology SQL | `/ontology/sql-passthrough` |
+| SQL | Lakehouse SQL | `/ontology/lakehouse-sql` |
+| 系统 | 数据源 | `/settings/data-sources` |
+| 系统 | LLM 配置 | `/settings/llm-config` |
+| 系统 | MCP 密钥 | `/settings/mcp-keys` |
+| 系统 | 偏好 | `/settings/preferences` |
+| 系统 | 用户管理(仅管理员) | `/settings/users` |
 
 ## 逐组说明
 

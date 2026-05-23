@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { loadDocument } from "@/lib/content";
 import { DocsShell } from "@/components/site/DocsShell";
+import { RoleGuide } from "@/components/site/RoleGuide";
 import { findDoc, docsOrder } from "@/lib/docs-nav";
 import { pageAlternates } from "@/lib/seo";
 
@@ -36,7 +37,16 @@ export default async function DocsPageZh({
   const meta = findDoc(LANG, slug);
   if (!meta) notFound();
   const { html, toc } = loadDocument(LANG, "docs", slug);
+  const belowContent =
+    slug === "workflow" ? <RoleGuide key="role-guide" lang={LANG} /> : undefined;
   return (
-    <DocsShell lang={LANG} basePath="/zh/docs" slug={slug} html={html} toc={toc} />
+    <DocsShell
+      lang={LANG}
+      basePath="/zh/docs"
+      slug={slug}
+      html={html}
+      toc={toc}
+      belowContent={belowContent}
+    />
   );
 }

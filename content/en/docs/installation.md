@@ -46,25 +46,21 @@ The Makefile wraps the same: `make up` / `make down` / `make health` / `make log
 
 Eight images (gateway + frontend + 6 Go services) plus Postgres and the observability stack. **Only the gateway publishes a host port (`28080`)**; everything else is reachable only on the internal Docker network.
 
-```
-                  browser
-                    │
-            ┌───────▼────────┐
-            │  gateway :28080 │  nginx — the only public ingress, reverse-proxy by path
-            └───────┬────────┘
-   ┌─────────┬──────┼───────┬──────────────┐
-   ▼         ▼      ▼       ▼              ▼
-frontend  backend  agent   recall     collector
-:8080    -api      -server -server    -server
-Next.js  :8090     :8092   :8093      :8096
-         ont CRUD  AI Agent 3-tier     ingest
-                    │       recall
-                    ▼       ▼
-         lakehouse-sql-server :8094   mcp-tools-server :8095
-         SmartQuery engine (ont→SQL)  MCP gateway
-                    │
-                    ▼
-            Postgres + pgvector (single source of truth)
+```mermaid
+flowchart TD
+  B(["browser"]) --> GW["gateway :28080<br/>nginx · sole ingress, reverse-proxy by path"]
+  GW --> FE["frontend :8080"]
+  GW --> API["backend-api :8090<br/>ont CRUD · auth · projects"]
+  GW --> AG["agent-server :8092<br/>AI Agent"]
+  GW --> RC["recall-server :8093<br/>3-tier recall"]
+  GW --> CO["collector-server :8096<br/>ingest"]
+  AG --> SQL["lakehouse-sql-server :8094<br/>SmartQuery engine (ont→SQL)"]
+  AG --> RC
+  API --> SQL
+  MCP["mcp-tools-server :8095<br/>MCP gateway"] --> SQL
+  MCP --> RC
+  SQL --> PG[("Postgres + pgvector<br/>single source of truth")]
+  CO --> PG
 ```
 
 Per-service role (ports are **internal**):
@@ -99,4 +95,4 @@ Also configure an **embedding model** (a 1024-dim model like `bge-large-zh`), ot
 
 The **project switcher** sits at the top-left of the sidebar. Open it → "New project" enters `/setup-wizard`. Each project is its own ontology + data + access boundary (every `ont_*` / `lakehouse_*` table carries a `project_id`).
 
-Next: **[Connecting a Data Source](/docs/data-sources/)**.
+Next: **[Setup & Collaboration](/docs/workflow/)** — see the three steps and the business/technical role split before you start configuring.

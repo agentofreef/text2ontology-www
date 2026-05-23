@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Menu, X, Search, ArrowLeft, ArrowRight } from "lucide-react";
 import { Prose } from "./Prose";
 import { Toc } from "./Toc";
@@ -122,12 +122,14 @@ export function DocsShell({
   slug,
   html,
   toc,
+  belowContent,
 }: {
   lang: DocLang;
   basePath: string;
   slug: string;
   html: string;
   toc: TocItem[];
+  belowContent?: ReactNode;
 }) {
   const page = findDoc(lang, slug);
   const groupLabel = groupLabelFor(lang, slug);
@@ -135,6 +137,98 @@ export function DocsShell({
   const [query, setQuery] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const c = ui[lang];
+  const proseRef = useRef<HTMLDivElement>(null);
+
+  // Render ```mermaid fenced blocks to SVG client-side, in the site's palette.
+  // marked emits them as <pre><code class="language-mermaid">; we read the
+  // unescaped source via textContent, render, and swap the <pre> for the SVG.
+  // A parse error leaves the original code block untouched. Re-runs when the
+  // markdown (html) changes, e.g. on client-side navigation between docs.
+  useEffect(() => {
+    const root = proseRef.current;
+    if (!root) return;
+    const blocks = Array.from(
+      root.querySelectorAll<HTMLElement>("code.language-mermaid"),
+    );
+    if (blocks.length === 0) return;
+    let cancelled = false;
+    (async () => {
+      const mermaid = (await import("mermaid")).default;
+      // CJK labels are sized against the page fonts. If mermaid measures text
+      // before the web fonts settle, node boxes come out too small and Chinese
+      // characters get clipped — so wait for fonts to be ready first, and use a
+      // font stack that includes CJK families.
+      if (typeof document !== "undefined" && document.fonts?.ready) {
+        try {
+          await document.fonts.ready;
+        } catch {
+          /* ignore */
+        }
+      }
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: "loose",
+        theme: "base",
+        fontFamily:
+          '"JetBrains Mono", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", ui-monospace, monospace',
+        // SVG <text> labels (not foreignObject HTML): mermaid sizes each node
+        // from the real rendered text bbox, which fits CJK reliably. useMaxWidth
+        // keeps a viewBox so the SVG can scale responsively (see normalization
+        // below) instead of being clipped to a fixed height.
+        htmlLabels: false,
+        flowchart: { htmlLabels: false, useMaxWidth: true },
+        themeVariables: {
+          background: "#fafafa",
+          primaryColor: "#f4f4f4",
+          primaryBorderColor: "#0a0a0a",
+          primaryTextColor: "#0a0a0a",
+          secondaryColor: "#ffffff",
+          tertiaryColor: "#ffffff",
+          lineColor: "#0a0a0a",
+          fontSize: "14px",
+        },
+      });
+      for (let i = 0; i < blocks.length; i++) {
+        const code = blocks[i];
+        const pre = code.closest("pre") ?? code;
+        const src = code.textContent ?? "";
+        const id = `mmd-${slug}-${i}-${Math.random().toString(36).slice(2, 8)}`;
+        try {
+          const { svg } = await mermaid.render(id, src);
+          if (cancelled) return;
+          const wrap = document.createElement("div");
+          wrap.className =
+            "mermaid-rendered my-6 overflow-x-auto border-2 border-ink bg-canvas-alt p-5";
+          wrap.innerHTML = svg;
+          // Make the SVG scale by its viewBox so its height follows the content
+          // instead of a fixed height that clips shapes / edges / labels. (A
+          // flex wrapper + fixed-height SVG was cutting the diagram off.)
+          const svgEl = wrap.querySelector("svg");
+          if (svgEl) {
+            // Render at natural size (not stretched to 100% width — that blew
+            // tall flowcharts up to fill the screen), capped to the column width
+            // and a sane max height; the browser scales down preserving aspect.
+            const vb = svgEl.getAttribute("viewBox");
+            const vbW = vb ? parseFloat(vb.trim().split(/\s+/)[2]) : 0;
+            svgEl.removeAttribute("width");
+            svgEl.removeAttribute("height");
+            svgEl.style.width = vbW > 0 ? `${vbW}px` : "auto";
+            svgEl.style.height = "auto";
+            svgEl.style.maxWidth = "100%";
+            svgEl.style.maxHeight = "690px";
+            svgEl.style.display = "block";
+            svgEl.style.margin = "0 auto";
+          }
+          pre.replaceWith(wrap);
+        } catch {
+          // leave the original code block in place on parse error
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [html, slug]);
 
   const sidebarBody = (onNavigate?: () => void) => (
     <>
@@ -208,7 +302,11 @@ export function DocsShell({
                 ) : null}
               </header>
 
-              <Prose html={html} />
+              <div ref={proseRef}>
+                <Prose html={html} />
+              </div>
+
+              {belowContent}
 
               {(prev || next) && (
                 <div className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
