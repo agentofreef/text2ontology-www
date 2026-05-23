@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import fs from "node:fs";
 import path from "node:path";
 import { blogCatalog } from "@/lib/content";
+import { docsOrder } from "@/lib/docs-nav";
 import { SITE_URL } from "@/lib/seo";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
@@ -30,7 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", lastModified: buildTime, priority: 1.0 },
     { path: "/manifesto/", lastModified: mtimeFor("en/manifesto/manifesto.md"), priority: 0.9 },
     { path: "/blog/", lastModified: buildTime, priority: 0.8 },
-    { path: "/docs/", lastModified: buildTime, priority: 0.5 },
   ];
 
   const entries: MetadataRoute.Sitemap = [];
@@ -70,6 +70,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: mtimeFor(`zh/blog/${post.slug}.md`),
       changeFrequency: "monthly",
       priority: 0.8,
+      alternates: { languages: { en, "zh-CN": zh, "x-default": en } },
+    });
+  }
+
+  // Docs — the introduction page is the docs root (/docs/); every other page
+  // is /docs/<slug>/. Both locales, lastModified from each markdown file's mtime.
+  for (const slug of docsOrder("en")) {
+    const sub = slug === "introduction" ? "/docs/" : `/docs/${slug}/`;
+    const en = SITE_URL + sub;
+    const zh = SITE_URL + "/zh" + sub;
+    entries.push({
+      url: en,
+      lastModified: mtimeFor(`en/docs/${slug}.md`),
+      changeFrequency: "monthly",
+      priority: slug === "introduction" ? 0.7 : 0.6,
+      alternates: { languages: { en, "zh-CN": zh, "x-default": en } },
+    });
+    entries.push({
+      url: zh,
+      lastModified: mtimeFor(`zh/docs/${slug}.md`),
+      changeFrequency: "monthly",
+      priority: slug === "introduction" ? 0.7 : 0.6,
       alternates: { languages: { en, "zh-CN": zh, "x-default": en } },
     });
   }
