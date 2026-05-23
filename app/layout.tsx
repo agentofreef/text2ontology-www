@@ -29,23 +29,23 @@ const notoSansSC = Noto_Sans_SC({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "text2ontology — Ontology before query",
-    template: "%s · text2ontology",
+    default: "TEXT2ONTOLOGY — Ontology before query",
+    template: "%s · TEXT2ONTOLOGY",
   },
   description:
     "An open-source system for LLM-driven data analysis where the organization maintains the ontology and the LLM only fills parameters into intent templates. Built so every wrong answer has an address.",
   openGraph: {
-    title: "text2ontology — Ontology before query",
+    title: "TEXT2ONTOLOGY — Ontology before query",
     description:
       "LLM-driven analysis should not freely write SQL. It should fill parameters into intent templates the organization maintains.",
     url: SITE_URL,
-    siteName: "text2ontology",
+    siteName: "TEXT2ONTOLOGY",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "text2ontology — Ontology before query",
+    title: "TEXT2ONTOLOGY — Ontology before query",
     description:
       "LLM-driven analysis should not freely write SQL. It should fill parameters into intent templates the organization maintains.",
   },

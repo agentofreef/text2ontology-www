@@ -12,7 +12,7 @@ import { pageAlternates } from "@/lib/seo";
  * Static export emits this to /zh/index.html.
  */
 export const metadata = {
-  title: "text2ontology — 本体先于查询",
+  title: "TEXT2ONTOLOGY — 本体先于查询",
   description:
     "LLM 驱动数据分析,组织维护本体,LLM 只往意图模板里填参数。每个错误都有地址。",
   alternates: pageAlternates({ enPath: "", lang: "zh" }),
