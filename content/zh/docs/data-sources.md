@@ -15,6 +15,12 @@
 
 所有接入都只经过 **collector-server** 这一个入口。接好之后,collector 会把项目指向它的 lakehouse schema,数据 + 本体落库,数据源状态变 `ready`。
 
+**▶ 演示** —— 第 1 步:新建项目 → 向导 → 选 .pbix(约 24 秒)
+
+<div class="doc-video">
+<video controls preload="metadata" playsinline src="/demos/04-data-upload.mp4"></video>
+</div>
+
 ## PBIX(主路径)与 PBIT 的关键区别
 
 两者都在同一个上传页(`/settings/data-sources/add/pbi`),拖拽 `.pbix` / `.pbit` 即可,但**后端走两条完全不同的路**:

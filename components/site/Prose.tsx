@@ -51,6 +51,9 @@ export function Prose({ html }: { html: string }) {
         "[&_tbody_tr:hover]:bg-canvas-alt",
         // images
         "[&_img]:my-6 [&_img]:border [&_img]:border-border",
+        // demo videos (embedded via raw <video> in the markdown)
+        "[&_video]:my-2 [&_video]:block [&_video]:w-full [&_video]:max-w-[760px] [&_video]:border-2 [&_video]:border-ink [&_video]:bg-ink",
+        "[&_.doc-video]:my-6",
       ].join(" ")}
       dangerouslySetInnerHTML={{ __html: html }}
     />

@@ -15,6 +15,12 @@ Go to **System → Data Sources** (`/settings/data-sources`) → "Add data sourc
 
 Every ingest goes through **collector-server** alone. Once done, collector points the project at its lakehouse schema, the data + ontology land, and the source flips to `ready`.
 
+**▶ Demo** — Step 1: new project → wizard → pick a .pbix (~24s)
+
+<div class="doc-video">
+<video controls preload="metadata" playsinline src="/demos/04-data-upload.mp4"></video>
+</div>
+
 ## PBIX (primary) vs. PBIT — the key difference
 
 Both upload on the same page (`/settings/data-sources/add/pbi`); drag in a `.pbix` / `.pbit`. But the **backend takes two completely different paths**:

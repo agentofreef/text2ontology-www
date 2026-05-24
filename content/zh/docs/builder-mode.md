@@ -10,6 +10,12 @@
 
 > **⚠️ 当前请优先手动构建本体。** Builder(构建)模式还**不可靠**——它能帮你起草,但经常需要大量返工。**推荐的路径是:在「本体」页面(`/ontology/lakehouse-objects`)手动定义 OD / semantic_sql / 属性 / Link / 描述**,并优先用手动方式查询验证。把 Builder 当成一个可选的"草稿助手",而不是依赖它一键建好。
 
+**▶ 演示** —— 第 2 步:从 SQL 定义对象 `EARLY_ORDER`(约 60 秒)
+
+<div class="doc-video">
+<video controls preload="metadata" playsinline src="/demos/05-object-create.mp4"></video>
+</div>
+
 ## 业务概念怎么映射进系统
 
 把上面的业务语言,翻译成系统里的对象:

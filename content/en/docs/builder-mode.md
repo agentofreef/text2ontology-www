@@ -10,6 +10,12 @@ This is the core of the whole setup, and the place where **business and technica
 
 > **⚠️ For now, build the ontology by hand.** Builder mode is **not yet reliable** — it can draft, but it often needs heavy rework. **The recommended path is to define ODs / semantic_sql / properties / Links / descriptions manually on the Ontology page** (`/ontology/lakehouse-objects`), and to query manually to verify. Treat Builder as an optional "draft assistant", not something to rely on for one-click modeling.
 
+**▶ Demo** — Step 2: define the `EARLY_ORDER` object from SQL (~60s)
+
+<div class="doc-video">
+<video controls preload="metadata" playsinline src="/demos/05-object-create.mp4"></video>
+</div>
+
 ## How business concepts map into the system
 
 Translate that business language into the system's objects:
