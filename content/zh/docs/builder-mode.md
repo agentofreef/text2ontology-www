@@ -16,6 +16,12 @@
 <video controls preload="metadata" playsinline src="/demos/05-object-create.mp4"></video>
 </div>
 
+**▶ 演示** —— 第 2 步:建关系,连接 `EARLY_ORDER` ↔ `MTM`(1:N,约 38 秒)
+
+<div class="doc-video">
+<video controls preload="metadata" playsinline src="/demos/06-link-create.mp4"></video>
+</div>
+
 ## 业务概念怎么映射进系统
 
 把上面的业务语言,翻译成系统里的对象:

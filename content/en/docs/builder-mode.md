@@ -16,6 +16,12 @@ This is the core of the whole setup, and the place where **business and technica
 <video controls preload="metadata" playsinline src="/demos/05-object-create.mp4"></video>
 </div>
 
+**▶ Demo** — Step 2: create a Link, connecting `EARLY_ORDER` ↔ `MTM` (1:N, ~38s)
+
+<div class="doc-video">
+<video controls preload="metadata" playsinline src="/demos/06-link-create.mp4"></video>
+</div>
+
 ## How business concepts map into the system
 
 Translate that business language into the system's objects:

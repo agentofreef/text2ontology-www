@@ -12,12 +12,6 @@ Getting a text2ontology instance running is, at heart, three steps:
 
 Of the three, **Step 2 is the core**, and it's the one place where **a business person and a technical person have to sit down together.** Understand who owns what and the rest follows.
 
-**▶ Demo** — the full flow: connect → model → ask → diagnose (~21s)
-
-<div class="doc-video">
-<video controls preload="metadata" playsinline src="/demos/03-end-to-end.mp4"></video>
-</div>
-
 ## Who owns what (the collaboration)
 
 In one line: **the business person owns *meaning*, the technical person owns the *data plumbing*, and the natural-language descriptions are the bridge between them.**
