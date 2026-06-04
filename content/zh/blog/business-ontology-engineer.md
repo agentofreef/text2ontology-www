@@ -40,7 +40,7 @@
 - 加上 filter:`ont_property='status' WHERE value IN ('CONFIRMED')`
 - 加上聚合:`COUNT(*) / total_orders`
 
-这个映射不是 prompt 里描述的,是**写在 `lakehouse_keyword` 表 + `lakehouse_metric_intent` 表里的结构化数据**。
+这个映射不是 prompt 里描述的,是**写在 `lakehouse_keyword` 表 + `lakehouse_metric` 表里的结构化数据**。
 
 ### 3. 本体是**可被 CRUD、可被审计、可被版本化的资产**
 
@@ -107,8 +107,8 @@ Data Dictionary 是**列级元数据表**:某列叫什么名字、是什么类�
 
 ### 不是 dbt Semantic Layer / Cube.js
 
-dbt Metrics 和 Cube 是 metric-centric 的 semantic layer —— 它们让你定义 metric(指标)的 SQL 模板。
-本体**包含**这层,但更大:本体还包括对象、属性、关系、别名、因果链、学习事实。**Metric 是本体的一个子集,不是全部**。
+dbt Metrics 和 Cube 是 metric-centric 的 semantic layer —— 它们让你定义 metric(对应我们的「口径」)的 SQL 模板。
+本体**包含**这层,但更大:本体还包括对象、属性、关系、别名、因果链、学习事实。**口径(Metric)是本体的一个子集,不是全部**。
 
 ### 一个简洁判断标准
 
@@ -128,7 +128,7 @@ dbt Metrics 和 Cube 是 metric-centric 的 semantic layer —— 它们让你�
 有了上面的定义清晰,BOE 的工作内容就具体了。一个 BOE 的日常职责:
 
 1. **跟业务部门访谈**,把口头业务术语提炼成结构化对象、属性、关系
-2. **维护本体表**(`ont_object_type`、`ont_property`、`ont_link_type`、`lakehouse_metric_intent`、`lakehouse_keyword`),增删改查
+2. **维护本体表**(`ont_object_type`、`ont_property`、`ont_link_type`、`lakehouse_metric`、`lakehouse_keyword`),增删改查
 3. **审查 AI 提议的本体变更** —— 当 Agent (Builder 模式) 提议新建一个对象,BOE 决定通过 / 修改 / 拒绝
 4. **监督 LLM 分词输出**,矫正错误(系统每跑一次查询,BOE 都应该看一眼分词是不是合理,需要时补 alias)
 5. **跟数据工程师对接 staging schema 变化** —— 上游表结构变了(列名改了、表迁移了、数据源换了),BOE **只更新本体的"实现层"**:对应 OD 的 `semantic_sql` 字段、`source_column` 映射。**本体的业务层(对象定义、属性语义、关系、业务口径)完全不动**。这是本体存在的根本价值之一 —— **让业务语义免疫于物理 schema 的频繁变动**

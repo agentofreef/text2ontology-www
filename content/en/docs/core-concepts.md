@@ -6,7 +6,7 @@
 
 This is the ontology vocabulary. You don't need all of it, but **you do need OD, Metric, and Keyword** — day-to-day correction happens in those three places.
 
-> **Terminology note**: what the UI and code call **"Metric"** is what the early manifesto / design philosophy call **"Intent"**, and the database table is `lakehouse_metric_intent` — **all three are the same concept**. This documentation uses "Metric" throughout.
+> **Terminology note**: a **"Metric"** is the legislated unit that bridges natural language to a deterministic query (table `lakehouse_metric`). Parts of the codebase and older material also call it **"Intent"** (the older `lakehouse_metric_intent` table) — the same concept. This documentation uses "Metric" throughout.
 
 ## The 7 core concepts
 
@@ -18,7 +18,7 @@ This is the ontology vocabulary. You don't need all of it, but **you do need OD,
 | **OK** (Knowledge) | `ont_knowledge` | Business structure vs. business knowledge | advanced |
 | **OL** (Learned-fact) | `ont_learned_fact` | Static knowledge vs. dynamic learning | advanced |
 | **Causality** | `ont_causality` | Business causation vs. physical relation | advanced |
-| **Metric** | `lakehouse_metric_intent` | Bridges NL vagueness to SQL determinism | ★★ key |
+| **Metric** | `lakehouse_metric` | Bridges NL vagueness to SQL determinism | ★★ key |
 | **Keyword** | `lakehouse_keyword` | Dual-channel entry: literal + semantic match | ★★ key |
 
 ## Three-layer ontology lifecycle

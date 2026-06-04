@@ -45,7 +45,7 @@ mindmap
 | Data Assets | Ontology (OD list + property graph) | `/ontology/lakehouse-objects` |
 | Knowledge Engineering | Keywords | `/ontology/lakehouse-keywords` |
 | Knowledge Engineering | Keyword Triage | `/ontology/lakehouse-keyword-triage` |
-| Knowledge Engineering | Metrics | `/ontology/lakehouse-metric-intents` |
+| Knowledge Engineering | Metrics | `/ontology/lakehouse-metrics` |
 | Agent | Lakehouse Agent (main chat) | `/ontology/lakehouse-agent` |
 | Agent | Chat History | `/ontology/lakehouse-agent/history` |
 | Agent | Annotations | `/ontology/lakehouse-agent/annotations` |

@@ -45,7 +45,7 @@ mindmap
 | 数据资产 | 本体(OD 列表 + 属性图) | `/ontology/lakehouse-objects` |
 | 知识工程 | 关键词 | `/ontology/lakehouse-keywords` |
 | 知识工程 | 关键词分诊 | `/ontology/lakehouse-keyword-triage` |
-| 知识工程 | 指标 | `/ontology/lakehouse-metric-intents` |
+| 知识工程 | 指标 | `/ontology/lakehouse-metrics` |
 | Agent | 湖仓 Agent(主对话) | `/ontology/lakehouse-agent` |
 | Agent | 对话历史 | `/ontology/lakehouse-agent/history` |
 | Agent | 标注 | `/ontology/lakehouse-agent/annotations` |

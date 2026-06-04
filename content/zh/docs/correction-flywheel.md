@@ -43,7 +43,7 @@
 |---|---|---|
 | 分词不对 / 没看懂某个词 | **关键词分诊** | `/ontology/lakehouse-keyword-triage` |
 | 想看分词与召回过程 | **Token 召回** | `/ontology/lakehouse-agent/token-recall` |
-| 现有指标覆盖不了某维度 | **指标**(新建) | `/ontology/lakehouse-metric-intents` |
+| 现有指标覆盖不了某维度 | **指标**(新建) | `/ontology/lakehouse-metrics` |
 | 关键词增删改 | **关键词** | `/ontology/lakehouse-keywords` |
 | OD 描述 / semantic_sql / 属性 / Link | **本体** | `/ontology/lakehouse-objects` |
 | 给 Agent 决策打标注 | **标注** | `/ontology/lakehouse-agent/annotations` |

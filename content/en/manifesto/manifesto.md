@@ -59,8 +59,8 @@ This is the real reason "AI chat with your data" demos have flooded social media
 What an ontology is:
 - **Human-crafted**: built by ontology curators in collaboration with AI, not pre-existing
 - **Versioned**: lives in Postgres tables with full CRUD, mark states, audit logs
-- **Deterministic**: given the same parameters, Metric Intent produces the same SQL every time
-- **Auditable**: any decision-maker can open `lakehouse_metric_intent` and read, in plain sight, what "early order" means in your company
+- **Deterministic**: given the same parameters, Metric produces the same SQL every time
+- **Auditable**: any decision-maker can open `lakehouse_metric` and read, in plain sight, what "early order" means in your company
 
 It is not schema — **schema is physical fact; ontology is business fact**.
 It is not a traditional semantic layer — those assume you build first; **ontology is constructed incrementally with AI**.
@@ -70,11 +70,11 @@ It is not a prompt description — prompts cannot be versioned, audited, or CRUD
 
 **This is why enterprises will pay for the latter — trust has a home.**
 
-**Text-to-SQL dies on multi-table queries; the ontology route removes multi-table from the picture entirely.** Letting the LLM freely write SQL falls off a cliff past three tables, because the LLM has to decide "which tables + how to JOIN + how to filter and aggregate" all at once, and any single step going wrong takes the whole answer down. The ontology route lets the LLM **pick OD, pick Intent, pick Keyword from a pre-connected OD network** — three finite-set selections, not generation. The SQL is assembled downstream by the SmartQuery engine along the Links between ODs. **The LLM picks names, not joins.** This is the engineering payoff of "the LLM is only a constrained executor."
+**Text-to-SQL dies on multi-table queries; the ontology route removes multi-table from the picture entirely.** Letting the LLM freely write SQL falls off a cliff past three tables, because the LLM has to decide "which tables + how to JOIN + how to filter and aggregate" all at once, and any single step going wrong takes the whole answer down. The ontology route lets the LLM **pick OD, pick Metric, pick Keyword from a pre-connected OD network** — three finite-set selections, not generation. The SQL is assembled downstream by the SmartQuery engine along the Links between ODs. **The LLM picks names, not joins.** This is the engineering payoff of "the LLM is only a constrained executor."
 
 **One step further: the LLM also never writes a number across the tool-call chain.** Everything it emits is a **structural reference** like `t1.qty[3]`; the mechanical layer resolves the reference to the true value. The LLM never touches a numeric literal; any "copying value from tool result" is `POINTER_INVARIANT_VIOLATED` at the interceptor. The numbers the user finally sees equal exactly what the tool returned — **the possibility of number fabrication is structurally eliminated**, not via prompt reminders, not via post-hoc LLM self-eval.
 
-**One step further still: before any query runs, the system asks a binary question — can this question be answered at all?** The LLM decomposes it into the dimensions/filters it requires; the system mechanically checks each one against the authorized Intents. Any uncovered → the whole question is `Feasible: false` → **refuse to answer + precise reason**: "no authorized Intent provides the «X» dimension." Binary and whole-question — **rather not answer than answer wrong.** This is the engineering definition of *honesty* in the LLM era.
+**One step further still: before any query runs, the system asks a binary question — can this question be answered at all?** The LLM decomposes it into the dimensions/filters it requires; the system mechanically checks each one against the authorized Metrics. Any uncovered → the whole question is `Feasible: false` → **refuse to answer + precise reason**: "no authorized Metric provides the «X» dimension." Binary and whole-question — **rather not answer than answer wrong.** This is the engineering definition of *honesty* in the LLM era.
 
 ---
 
@@ -102,7 +102,7 @@ Traditional semantic layers demand months of upfront investment. We reject that 
 
 Do not expect the first query to return a correct answer. The intelligence of an ontology system is **accumulated, not granted** by the model.
 
-Every time a user asks, the ontology curator should review the LLM's tokenization output — supplement missing keywords, correct wrong aliases, adjust Intent priorities. Every correction makes the system more accurate next time.
+Every time a user asks, the ontology curator should review the LLM's tokenization output — supplement missing keywords, correct wrong aliases, adjust Metric priorities. Every correction makes the system more accurate next time.
 
 **Skip correction, and the system stays at cold start forever. Practice correction, and error rate compounds downward week by week.**
 
@@ -134,7 +134,7 @@ We do not claim this system never errs. We claim its **error model is a differen
 | Error localization | Not localizable (LLM is a black box) | Precisely localizable: `agent_step` shows which tier (EXACT/FUZZY/VEC) and which keyword id |
 | Error fix | Edit a prompt → impact unknown | Edit one DB row → impact bounded, all future queries fixed |
 | Error reproducibility | Not reproducible (LLMs are non-deterministic) | Fully reproducible (fixed ontology snapshot → fixed SQL) |
-| Error audit | Cannot prove "why I trusted this" | Can point to an Intent row and say "the CFO signed off on this definition in Q3" |
+| Error audit | Cannot prove "why I trusted this" | Can point to a Metric row and say "the CFO signed off on this definition in Q3" |
 
 **Bounded error is acceptable error. Unbounded hallucination is not.**
 
@@ -166,7 +166,7 @@ Import direction is strictly unidirectional, enforced by CI. Full architecture i
 
 - **Seven-image deployment** (6 Go services + nginx-served frontend), four-layer hexagonal, CI-enforced unidirectional imports
 - **Two agent modes**: query / build, each with its own tool surface and data targets
-- **Metric Intent system**: trigger word → complete query template (metric / filters / auto_group_by / pivot), zero-code additions
+- **Metric system**: trigger word → complete query template (metric / filters / auto_group_by / pivot), zero-code additions
 - **Thread Memory Ledger**: cross-turn structured memory, token waste reduced by an order of magnitude
 - **Per-step agent logging** (`agent_step`): every agent decision is replayable
 
@@ -174,7 +174,7 @@ Code is fully open-source under Apache 2.0. Fork, critique, reuse.
 
 ### Still in progress (honest status)
 
-**Principle 7 ("auditable") is currently half-implemented.** Agent-side decision logs (`agent_step`) and the builder-mode "propose → human activate" flow are both shipped. But **full version control of the ontology itself — who changed which Intent field at what time, what was the prior value, whether it can be rolled back — is not yet written**. This is the top priority on the v0.2 roadmap.
+**Principle 7 ("auditable") is currently half-implemented.** Agent-side decision logs (`agent_step`) and the builder-mode "propose → human activate" flow are both shipped. But **full version control of the ontology itself — who changed which Metric field at what time, what was the prior value, whether it can be rolled back — is not yet written**. This is the top priority on the v0.2 roadmap.
 
 Other principles are largely in place, but each has edge cases to refine.
 

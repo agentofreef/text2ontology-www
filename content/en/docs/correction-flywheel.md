@@ -43,7 +43,7 @@ If the OD is correct but **the numbers come back wrong**, the problem is one lay
 |---|---|---|
 | Tokenization wrong / a word not understood | **Keyword Triage** | `/ontology/lakehouse-keyword-triage` |
 | Inspect tokenization + recall | **Token Recall** | `/ontology/lakehouse-agent/token-recall` |
-| No metric covers a dimension | **Metrics** (create) | `/ontology/lakehouse-metric-intents` |
+| No metric covers a dimension | **Metrics** (create) | `/ontology/lakehouse-metrics` |
 | Add / edit / remove keywords | **Keywords** | `/ontology/lakehouse-keywords` |
 | OD description / semantic_sql / properties / Link | **Ontology** | `/ontology/lakehouse-objects` |
 | Annotate an agent decision | **Annotations** | `/ontology/lakehouse-agent/annotations` |

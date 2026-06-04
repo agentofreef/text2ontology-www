@@ -40,7 +40,7 @@ When the user says "early-order rate," the term:
 - with filter: `ont_property='status' WHERE value IN ('CONFIRMED')`
 - with aggregation: `COUNT(*) / total_orders`
 
-This mapping is **not described inside a prompt** — it lives as **structured data in the `lakehouse_keyword` table + `lakehouse_metric_intent` table**.
+This mapping is **not described inside a prompt** — it lives as **structured data in the `lakehouse_keyword` table + `lakehouse_metric` table**.
 
 ### 3. Ontology is **a CRUD-able, auditable, version-able asset**
 
@@ -128,7 +128,7 @@ When someone says "we have an ontology," ask four questions:
 With the definition pinned down, the BOE job becomes concrete. Daily responsibilities:
 
 1. **Interview business teams**, distilling spoken business terms into structured objects, properties, relationships
-2. **Maintain the ontology tables** (`ont_object_type`, `ont_property`, `ont_link_type`, `lakehouse_metric_intent`, `lakehouse_keyword`) — CRUD
+2. **Maintain the ontology tables** (`ont_object_type`, `ont_property`, `ont_link_type`, `lakehouse_metric`, `lakehouse_keyword`) — CRUD
 3. **Review AI-proposed ontology changes** — when the Agent (Builder mode) proposes a new object, the BOE decides accept / modify / reject
 4. **Supervise LLM tokenization output**, correcting errors (after every query the BOE should glance at whether tokenization made sense; add aliases as needed)
 5. **Coordinate staging-schema changes with data engineering** — when an upstream table changes (column rename, table migration, source switch), the BOE **only updates the ontology's implementation layer**: the corresponding OD's `semantic_sql` field and `source_column` mapping. **The business layer (object definitions, property semantics, relationships, definitions) is untouched.** This is one of ontology's fundamental values — **business semantics are immune to physical schema churn**

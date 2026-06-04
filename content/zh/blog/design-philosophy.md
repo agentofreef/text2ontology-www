@@ -8,9 +8,11 @@ text2ontology 是一套让企业可以**用自然语言问数据问题、并得�
 
 它跟 Text2SQL 的根本不同在于:**LLM 不生成 SQL,LLM 只填参数**。SQL 是从企业内部维护的本体里 deterministic 地生成的。
 
+更锋利地说,这套系统是一台**数据分析的编译器**:**本体是它的类型系统,口径是它的立法**。本体(对象 / 属性 / 关系 / 关键词,全部入库、可 CRUD、可审计)规定"有哪些合法对象、哪些预先连好的 JOIN 路径";口径(`lakehouse_metric`)规定"在这些对象之上、某个业务数字到底怎么算"——一条挂在单个 OD 上、最精简的度量定义,就是这个数在你们组织里的**法定定义**。再加一道闸门 `NO_AUTHORIZED_METRIC`:任何聚合都必须被一条已授权口径背书,否则**诚实拒答**,而不是自信答错。于是 LLM 永远只做有限集选择题(挑 OD、挑口径、挑关键词),**永远看不见 JOIN、永远不写 SQL**。
+
 本文用**一个具体问答**作为主线,讲清整套设计。读完之后你应该能回答三件事:
 - 用户问一句话,系统做了什么
-- 7 个核心概念(OD、OK、OL、Link、Causality、Intent、Keyword)各自负责什么
+- 7 个核心概念(OD、OK、OL、Link、Causality、口径、Keyword)各自负责什么
 - 这个系统为什么是这个结构,不是别的
 
 ---
@@ -31,8 +33,8 @@ text2ontology 是一套让企业可以**用自然语言问数据问题、并得�
     
     "早单率" 命中:
       - Keyword 表里的 "早单率" (EXACT)
-      - 指向 Intent: Order.EarlyOrderRate
-      - 该 Intent 锚定的 OD: Order
+      - 指向 口径: Order.EarlyOrderRate
+      - 该 口径 锚定的 OD: Order
       - Order 关联的 OK: "早单的业务定义"
       - Order 关联的 Link: Order → Customer
     
@@ -41,7 +43,7 @@ text2ontology 是一套让企业可以**用自然语言问数据问题、并得�
 [3] 上下文组装
     把召回到的所有结构化信息组装成 LLM 可读形式。
     上下文里明确告诉 LLM:
-      "你拿到了这些 OD、这些 Intent、这些 OK"
+      "你拿到了这些 OD、这些 口径、这些 OK"
       "你的工具只有 Lookup 和 Query"
    ↓
 [4] LLM 工具调用
@@ -54,8 +56,8 @@ text2ontology 是一套让企业可以**用自然语言问数据问题、并得�
       {intent_id: "Order.EarlyOrderRate", params: {period: "Q1"}}
    ↓
 [5] Query 工具执行
-    Intent 携带完整查询形状:metric、filters、groupBy、pivot 配置
-    系统将 Intent + params 翻译成 SQL,在 Postgres 执行,返回结果
+    口径 携带完整查询形状:metric、filters、groupBy、pivot 配置
+    系统将 口径 + params 翻译成 SQL,在 Postgres 执行,返回结果
    ↓
 [6] LLM 总结返回
     LLM 看到结果,按预设模板(或自由)生成自然语言答案
@@ -91,7 +93,7 @@ text2ontology 是一套让企业可以**用自然语言问数据问题、并得�
 │    回答:运营中学到了什么                      │
 ├────────────────────────────────────────────────┤
 │  入口层 (Entry)                                │
-│    Intent + Keyword                            │
+│    口径 + Keyword                            │
 │    回答:自然语言怎么进系统                    │
 └────────────────────────────────────────────────┘
 ```
@@ -103,7 +105,7 @@ text2ontology 是一套让企业可以**用自然语言问数据问题、并得�
 ```
 Level 1: Ontology Level
   抽象 function call: {intent_id, params}
-  操作对象:OD / Intent / Property
+  操作对象:OD / 口径 / Property
   特点:deterministic,跟物理表无关
                   ↓
         (OD 的 semantic_sql 翻译)
@@ -114,7 +116,7 @@ Level 2: Physical SQL
   特点:可被 EXPLAIN,可被审计
 ```
 
-**两层架构的本质**:把"变化的成本"按层分配。schema 变只改 OD 的 semantic_sql;Intent 变只改 Intent 行;NL 变只加 Keyword alias。**每一层吸收下层的变化,对上层暴露稳定接口**。
+**两层架构的本质**:把"变化的成本"按层分配。schema 变只改 OD 的 semantic_sql;口径 变只改 口径 行;NL 变只加 Keyword alias。**每一层吸收下层的变化,对上层暴露稳定接口**。
 
 ---
 
@@ -127,7 +129,7 @@ Level 2: Physical SQL
 | **OL** (Ontology Learned-fact) | `ont_learned_fact` | 静态知识 vs 动态学习的并存 |
 | **Link** | `ont_link_type` | 物理 JOIN 路径的显式化 |
 | **Causality** | `ont_causality` | 业务因果 vs 物理关系的区分 |
-| **Intent** | `lakehouse_metric_intent` | NL 模糊性 vs SQL deterministic 的桥接 |
+| **口径** | `lakehouse_metric` | NL 模糊性 vs SQL deterministic 的桥接 |
 | **Keyword** | `lakehouse_keyword` | 字面匹配 vs 语义匹配的双通道入口 |
 
 ### 三个关键关系
@@ -136,7 +138,7 @@ Level 2: Physical SQL
 
 **OL 与 OK**:OL 是 AI 在对话中提议的事实(`confidence=pending`),BOE 审核后变成 `confirmed`。
 
-**Intent 与 Keyword**:Intent 是查询模板(锚定到一个 OD),Keyword 是触发词(指向 property 或 Intent)。它们一起构成 NL 到 deterministic 查询的桥梁。
+**口径 与 Keyword**:口径 是查询模板(锚定到一个 OD),Keyword 是触发词(指向 property 或 口径)。它们一起构成 NL 到 deterministic 查询的桥梁。
 
 ### 多表查询为什么不再是问题
 
@@ -147,11 +149,11 @@ Text2SQL 失败的真正原因不是 LLM 不会写 SQL,是 **LLM 在多表场景
 | 决定 | 由谁 | 怎么做 |
 |---|---|---|
 | 涉及哪些业务对象 | LLM | 在已经预先连好的 OD 网络里挑(有限集选择) |
-| 用哪种查询 | LLM | 从这些 OD 上绑的 Intent 里挑(有限集选择) |
+| 用哪种查询 | LLM | 从这些 OD 上绑的 口径 里挑(有限集选择) |
 | 参数 | LLM | 从用户问句里召回 Keyword(召回,不是生成) |
 | **JOIN / SQL 拼装** | **SmartQuery 引擎** | **顺着 Link 自动拼,跟 LLM 无关** |
 
-**LLM 选 Intent,Intent 拥有路径。引擎不推断 JOIN —— JOIN 是建模时 declarative 选定的。** LLM 做的全部是从有限集里"挑",不是"写"。拼装由 `lakehouse-sql-server` 这段后端代码确定性完成,走的是 Intent 在 propose 时已经钉死的那几条 Link。
+**LLM 选 口径,口径 拥有路径。引擎不推断 JOIN —— JOIN 是建模时 declarative 选定的。** LLM 做的全部是从有限集里"挑",不是"写"。拼装由 `lakehouse-sql-server` 这段后端代码确定性完成,走的是 口径 在 propose 时已经钉死的那几条 Link。
 
 ---
 
@@ -160,7 +162,7 @@ Text2SQL 失败的真正原因不是 LLM 不会写 SQL,是 **LLM 在多表场景
 整个系统的工具集只有两个。简洁是设计哲学。
 
 **Lookup** — 查本体内容,只读,无副作用
-- 输入:keyword / OD 名 / Intent 名
+- 输入:keyword / OD 名 / 口径 名
 - 输出:该单元的完整定义 + 解释层文本 + 它的关联
 - 何时用:LLM 需要查更详细的定义、解释、关联
 
@@ -187,7 +189,7 @@ Schema 是物理事实(表、列、类型),Ontology 是业务事实(业务对象
 
 ### 3. 每个本体单元都有强制双层
 
-任何 OD、OK、OL、Link、Causality、Intent、Keyword 都同时包含**结构层**(给机器)+ **解释层**(给 AI 和人类)。解释层向量化存储,召回时双通道(字面 + 语义)。
+任何 OD、OK、OL、Link、Causality、口径、Keyword 都同时包含**结构层**(给机器)+ **解释层**(给 AI 和人类)。解释层向量化存储,召回时双通道(字面 + 语义)。
 
 > **在自然语言入口处,名字不重要,意思重要。**
 > **列名告诉机器;解释告诉 AI。**
@@ -212,9 +214,9 @@ ontology 做的不是 Discovery(发现真理),是 Resolution(指定共识):
 1. **OD 必要性** —— 无 active OD 的项目,Query 工具拒绝执行
 2. **OD 1:1 semantic_sql** —— 每个 active OD 有且只有一段 SQL 定义(可引用多张物理表)
 3. **OD 不可孤岛** —— 多于一个 active OD 时,任意 active OD 必须通过至少一条 active Link 与另一个 active OD 关联
-4. **单一路径属于 Intent,不属于引擎** —— 当一对 OD 之间存在多条 Link,**Metric Intent 的声明就是路径的 declarative key**:它的 `(ods, canonical_metric, canonical_filters, auto_group_by)` 在被 propose 的那一刻已经把要走哪几条 Link 钉死了。引擎不推断,不挑路径,只执行 graph walk。没有 Intent 命中的查询返回 `INTENT_NOT_FOUND`,而不是猜一条 —— 路径不确定性被推到建模时由人来 commit,不是运行时由引擎来赌
+4. **单一路径属于 口径,不属于引擎** —— 当一对 OD 之间存在多条 Link,**口径 的声明就是路径的 declarative key**:它的 `(ods, canonical_metric, canonical_filters, auto_group_by)` 在被 propose 的那一刻已经把要走哪几条 Link 钉死了。引擎不推断,不挑路径,只执行 graph walk。没有 口径 命中的查询返回 `INTENT_NOT_FOUND`,而不是猜一条 —— 路径不确定性被推到建模时由人来 commit,不是运行时由引擎来赌
 5. **Pointer 不变量** —— LLM 在多步工具调用链中**全程不输出数值字面量**,只输出**结构化引用**:`t1`(整张表) / `t1.qty`(列) / `t1.qty[3]`(单元格) / `mABC.t1.qty[3]`(跨 mission)。 机械层 `ScanForLiteral` 遍历后续 dispatch args / verify / evidence 的每个字符串叶子,命中 `buildCellIndex` 索引就抛 `POINTER_INVARIANT_VIOLATED`。 用户最终看到的数字 = 工具调用真实返回,**LLM 全程不经手数字** —— 数字伪造的可能性在编译器层被结构性消除,不是靠 prompt 提醒,不是靠后处理检查
-6. **任务可达性 gate** —— 决断式 binary 判定,跑在 querying 之前。 LLM 把问题分解成 `[]DecompItem`(dimension / filter / metric × shape × why),系统**机械地**对每个 dimension/filter 检查"在已授权 Intents 里是否被覆盖"。 任何一个未覆盖 → `Feasible: false` → 整条 infeasible → **系统拒答** + 精确归因("没有任何已授权指标提供「X」这个维度")。 二元 + 整体,**宁可不答,不准乱答**;`AnswerableSubset` 仅作"我本来能答这几个"解释,不允许执行 partial answer
+6. **任务可达性 gate** —— 决断式 binary 判定,跑在 querying 之前。 LLM 把问题分解成 `[]DecompItem`(dimension / filter / metric × shape × why),系统**机械地**对每个 dimension/filter 检查"在已授权口径里是否被覆盖"。 任何一个未覆盖 → `Feasible: false` → 整条 infeasible → **系统拒答** + 精确归因("没有任何已授权口径提供「X」这个维度")。 二元 + 整体,**宁可不答,不准乱答**;`AnswerableSubset` 仅作"我本来能答这几个"解释,不允许执行 partial answer
 
 ### 未来工作
 
@@ -226,7 +228,7 @@ ontology 做的不是 Discovery(发现真理),是 Resolution(指定共识):
 - 跟 **dbt Semantic Layer / Cube**:它们解决 BI 一致性(消费者是 dashboard);text2ontology 解决 AI 答案一致性(消费者是 LLM agent)
 - 跟 **LangChain / LlamaIndex**:它们是 LLM 工具链;text2ontology 是 LLM 之外的本体治理基础设施
 
-召回机制(三层级联 + Intent priority + 解释层向量召回)的细节本文不展开 —— 实现见[代码仓库](https://github.com/agentofreef/text2ontology) `recall-server/` 目录。
+召回机制(三层级联 + 口径优先级 + 解释层向量召回)的细节本文不展开 —— 实现见[代码仓库](https://github.com/agentofreef/text2ontology) `recall-server/` 目录。
 
 ---
 

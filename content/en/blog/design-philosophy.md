@@ -8,9 +8,11 @@ text2ontology is a system that lets enterprises **ask data questions in natural 
 
 The fundamental difference from Text2SQL: **the LLM does not generate SQL — the LLM only fills parameters**. SQL is generated deterministically from an ontology that the enterprise maintains internally.
 
+Put more sharply, the system is a **compiler for data analysis**: **the ontology is its type system, and the metric is its legislation.** The ontology (objects / properties / relations / keywords — all in the database, CRUD-able, auditable) fixes "which legal objects exist and which JOIN paths are pre-wired"; the metric (`lakehouse_metric`) fixes "on top of those objects, how a specific business number is actually computed" — a single minimal measure hung on one OD, the **legal definition** of that number inside your organization. Add one gate, `NO_AUTHORIZED_METRIC`: every aggregate must be backed by an authorized metric, or the system **honestly refuses** instead of confidently answering wrong. So the LLM forever plays finite-set multiple choice (pick OD, pick metric, pick keyword) — **it never sees a JOIN and never writes SQL.**
+
 This essay walks the whole design through **one concrete Q&A**. By the end you should be able to answer three things:
 - What happens when a user asks one sentence
-- What each of the 7 core concepts (OD, OK, OL, Link, Causality, Intent, Keyword) is responsible for
+- What each of the 7 core concepts (OD, OK, OL, Link, Causality, Metric, Keyword) is responsible for
 - Why the system is structured this way and not another way
 
 ---
@@ -32,8 +34,8 @@ User asks: "How's the early-order rate?"
 
     "early-order rate" hits:
       - Keyword "early-order rate" in the keyword table (EXACT)
-      - Points to Intent: Order.EarlyOrderRate
-      - That Intent is anchored on OD: Order
+      - Points to Metric: Order.EarlyOrderRate
+      - That Metric is anchored on OD: Order
       - Order's attached OKs: "business definition of early order"
       - Order's Links: Order → Customer
 
@@ -42,7 +44,7 @@ User asks: "How's the early-order rate?"
 [3] Context assembly
     All recalled structured info is assembled into an LLM-readable shape.
     Context tells the LLM explicitly:
-      "You were given these ODs, these Intents, these OKs."
+      "You were given these ODs, these Metrics, these OKs."
       "Your only tools are Lookup and Query."
    ↓
 [4] LLM tool call
@@ -55,8 +57,8 @@ User asks: "How's the early-order rate?"
       {intent_id: "Order.EarlyOrderRate", params: {period: "Q1"}}
    ↓
 [5] Query tool executes
-    Intent carries the full query shape: metric, filters, groupBy, pivot config
-    System translates Intent + params into SQL, runs against Postgres, returns rows
+    Metric carries the full query shape: metric, filters, groupBy, pivot config
+    System translates Metric + params into SQL, runs against Postgres, returns rows
    ↓
 [6] LLM summarizes
     LLM reads the result, generates natural-language answer
@@ -93,7 +95,7 @@ Abstract the runtime above into structure, and you get text2ontology's two core 
 │    Answers: what was learned in operation       │
 ├────────────────────────────────────────────────┤
 │  Entry Layer                                    │
-│    Intent + Keyword                             │
+│    Metric + Keyword                             │
 │    Answers: how natural language enters         │
 └────────────────────────────────────────────────┘
 ```
@@ -105,7 +107,7 @@ Free composition within a layer; **dependencies flow one way across layers** —
 ```
 Level 1: Ontology Level
   Abstract function call: {intent_id, params}
-  Operates on: OD / Intent / Property
+  Operates on: OD / Metric / Property
   Property: deterministic, decoupled from physical tables
                   ↓
         (translation via OD.semantic_sql)
@@ -116,7 +118,7 @@ Level 2: Physical SQL
   Property: EXPLAIN-able, auditable
 ```
 
-**What the two-level architecture really does:** distribute the cost of change across layers. Schema changes only touch an OD's `semantic_sql`; Intent changes only touch an Intent row; NL changes only add a Keyword alias. **Each layer absorbs changes below it and exposes a stable interface above.**
+**What the two-level architecture really does:** distribute the cost of change across layers. Schema changes only touch an OD's `semantic_sql`; Metric changes only touch a Metric row; NL changes only add a Keyword alias. **Each layer absorbs changes below it and exposes a stable interface above.**
 
 ---
 
@@ -129,7 +131,7 @@ Level 2: Physical SQL
 | **OL** (Ontology Learned-fact) | `ont_learned_fact` | Static knowledge vs. dynamic learning coexistence |
 | **Link** | `ont_link_type` | Making physical JOIN paths explicit |
 | **Causality** | `ont_causality` | Business causation vs. physical relation distinction |
-| **Intent** | `lakehouse_metric_intent` | Bridge between NL vagueness and SQL determinism |
+| **Metric** | `lakehouse_metric` | Bridge between NL vagueness and SQL determinism |
 | **Keyword** | `lakehouse_keyword` | Dual-channel entry: literal match + semantic match |
 
 ### Three key relationships
@@ -138,7 +140,7 @@ Level 2: Physical SQL
 
 **OL and OK**: OL is a fact the AI proposes during a conversation (`confidence=pending`). After BOE review it becomes `confirmed`.
 
-**Intent and Keyword**: Intent is a query template (anchored on one OD). Keyword is a trigger word (points to a property or to an Intent). Together they bridge NL to deterministic queries.
+**Metric and Keyword**: Metric is a query template (anchored on one OD). Keyword is a trigger word (points to a property or to a Metric). Together they bridge NL to deterministic queries.
 
 ### Why multi-table queries are no longer a problem
 
@@ -149,11 +151,11 @@ The ontology architecture **physically separates** those three decisions:
 | Decision | By whom | How |
 |---|---|---|
 | Which business objects are involved | LLM | Pick from the already-connected OD network (finite-set selection) |
-| Which query shape | LLM | Pick from the Intents bound to those ODs (finite-set selection) |
+| Which query shape | LLM | Pick from the Metrics bound to those ODs (finite-set selection) |
 | Parameters | LLM | Recall Keywords from the user's question (recall, not generation) |
 | **JOIN / SQL assembly** | **SmartQuery engine** | **Stitched mechanically along the Links — no LLM involved** |
 
-**The LLM picks an Intent; the Intent owns the path. The engine does not infer JOINs — JOINs are declaratively chosen at modeling time.** Everything the LLM does is **picking from finite sets**, not **writing**. Assembly is done deterministically by the backend code in `lakehouse-sql-server`, walking the Links the Intent committed to when it was proposed.
+**The LLM picks a Metric; the Metric owns the path. The engine does not infer JOINs — JOINs are declaratively chosen at modeling time.** Everything the LLM does is **picking from finite sets**, not **writing**. Assembly is done deterministically by the backend code in `lakehouse-sql-server`, walking the Links the Metric committed to when it was proposed.
 
 ---
 
@@ -162,7 +164,7 @@ The ontology architecture **physically separates** those three decisions:
 The entire tool surface is two tools. Minimalism is the design philosophy.
 
 **Lookup** — query ontology contents; read-only, no side effects
-- Input: keyword / OD name / Intent name
+- Input: keyword / OD name / Metric name
 - Output: the unit's full definition + explanation text + its associations
 - When: LLM needs to look up a more detailed definition, explanation, or relationship
 
@@ -189,7 +191,7 @@ Schema is physical fact (tables, columns, types). Ontology is business fact (bus
 
 ### 3. Every ontology unit has a mandatory dual layer
 
-Every OD, OK, OL, Link, Causality, Intent, Keyword carries both a **structural layer** (for machines) and an **explanation layer** (for AI and humans). The explanation layer is vector-embedded, and recall is dual-channel (literal + semantic).
+Every OD, OK, OL, Link, Causality, Metric, Keyword carries both a **structural layer** (for machines) and an **explanation layer** (for AI and humans). The explanation layer is vector-embedded, and recall is dual-channel (literal + semantic).
 
 > **At the natural-language entry, the name doesn't matter — the meaning does.**
 > **Column names tell the machine; explanations tell the AI.**
@@ -214,9 +216,9 @@ What ontology does is not Discovery (finding truth) — it is **Resolution** (sp
 1. **OD necessity** — a project without active OD: Query tool refuses to execute
 2. **OD 1:1 semantic_sql** — every active OD has exactly one SQL definition (which may reference multiple physical tables)
 3. **No island OD** — when there's more than one active OD, any active OD must be connected to at least one other active OD through at least one active Link
-4. **The path belongs to the Intent, not the engine** — when a pair of OD has more than one Link between them, **the Metric Intent declaration is the declarative key for the path**: its `(ods, canonical_metric, canonical_filters, auto_group_by)` already nailed down which Links to walk at the moment it was proposed. The engine does not infer and does not pick a path — it only executes the graph walk. A query with no Intent hit returns `INTENT_NOT_FOUND` instead of guessing a path. Path ambiguity is pushed to modeling time and committed by a human, not gambled on by the engine at runtime
+4. **The path belongs to the Metric, not the engine** — when a pair of OD has more than one Link between them, **the Metric declaration is the declarative key for the path**: its `(ods, canonical_metric, canonical_filters, auto_group_by)` already nailed down which Links to walk at the moment it was proposed. The engine does not infer and does not pick a path — it only executes the graph walk. A query with no Metric hit returns `INTENT_NOT_FOUND` instead of guessing a path. Path ambiguity is pushed to modeling time and committed by a human, not gambled on by the engine at runtime
 5. **Pointer invariant** — across a multi-step tool-call chain, the LLM **never emits a numeric literal**. It only emits **structural references**: `t1` (a whole table) / `t1.qty` (a column) / `t1.qty[3]` (one cell) / `mABC.t1.qty[3]` (cross-mission). The mechanical layer's `ScanForLiteral` walks every string leaf in subsequent dispatch args / verify / evidence; a hit against the `buildCellIndex` raises `POINTER_INVARIANT_VIOLATED`. The numbers the user finally sees equal exactly what the tool returned — **the LLM never touches a number** — the possibility of number fabrication is structurally eliminated at the compiler layer, not via prompt reminders, not via post-hoc checks
-6. **Reachability gate** — a binary, pre-execution judgment. The LLM decomposes the question into `[]DecompItem` (dimension / filter / metric × shape × why); the system mechanically checks each dimension/filter against the authorized Intents. Any uncovered requirement → `Feasible: false` → the whole question is infeasible → **the system refuses to answer** + emits a precise reason ("no authorized Intent provides the «X» dimension"). Binary and whole-question — **rather not answer than answer wrong**; `AnswerableSubset` is explanatory only ("I could have answered these parts"), never license to run a partial answer
+6. **Reachability gate** — a binary, pre-execution judgment. The LLM decomposes the question into `[]DecompItem` (dimension / filter / metric × shape × why); the system mechanically checks each dimension/filter against the authorized Metrics. Any uncovered requirement → `Feasible: false` → the whole question is infeasible → **the system refuses to answer** + emits a precise reason ("no authorized Metric provides the «X» dimension"). Binary and whole-question — **rather not answer than answer wrong**; `AnswerableSubset` is explanatory only ("I could have answered these parts"), never license to run a partial answer
 
 ### Future work
 
@@ -228,7 +230,7 @@ What ontology does is not Discovery (finding truth) — it is **Resolution** (sp
 - vs **dbt Semantic Layer / Cube**: they solve BI consistency (consumer = dashboard); text2ontology solves AI answer consistency (consumer = LLM agent)
 - vs **LangChain / LlamaIndex**: those are LLM toolchains; text2ontology is ontology governance infrastructure *outside* the LLM
 
-Recall mechanics in depth (three-tier cascade + Intent priority + explanation-layer vector recall) are not covered in this essay — see `recall-server/` in the [codebase](https://github.com/agentofreef/text2ontology) for the implementation.
+Recall mechanics in depth (three-tier cascade + Metric priority + explanation-layer vector recall) are not covered in this essay — see `recall-server/` in the [codebase](https://github.com/agentofreef/text2ontology) for the implementation.
 
 ---
 
