@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
-import { Prose } from "./Prose";
+import { MermaidProse } from "./MermaidProse";
 import { Comments } from "./Comments";
 import { Toc } from "./Toc";
 import type { TocItem } from "@/lib/content";
@@ -74,7 +74,7 @@ export function DocShell({
 
             {topSlot ? <div className="mb-14">{topSlot}</div> : null}
 
-            <Prose html={html} />
+            <MermaidProse html={html} />
 
             <Comments lang={lang} />
 

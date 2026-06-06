@@ -150,6 +150,13 @@ export const docsCatalog: Record<Lang, DocMeta[]> = {
 export const blogCatalog: Record<Lang, DocMeta[]> = {
   en: [
     {
+      slug: "governance-is-full-stack",
+      title: "Governance Is a Full-Stack Property",
+      subtitle: "Two claims: why full-stack is necessary (\"every error has an address\" is a property of the whole chain, not a feature of the query layer), and why it beats Text-to-SQL and BI tools — by owning the two ends everyone else outsources: writing the oracle, and running it.",
+      kicker: "thesis",
+      featured: true,
+    },
+    {
       slug: "design-philosophy",
       title: "Design Philosophy",
       subtitle: "Architecture deep dive: three-layer ontology lifecycle, two-level query architecture, recall in depth.",
@@ -175,6 +182,13 @@ export const blogCatalog: Record<Lang, DocMeta[]> = {
     },
   ],
   zh: [
+    {
+      slug: "governance-is-full-stack",
+      title: "治理是一种全栈属性",
+      subtitle: "两个论点:为什么全栈是必要的(\"每个错都有地址\"是整条链的属性,不是查询层的功能),以及为什么它赢过 Text-to-SQL 和 BI 工具——靠把别人都外包掉的两端收回来:写裁判,和跑裁判。",
+      kicker: "thesis",
+      featured: true,
+    },
     {
       slug: "design-philosophy",
       title: "设计哲学",
