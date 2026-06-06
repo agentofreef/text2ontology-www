@@ -149,17 +149,6 @@ export const docsCatalog: Record<Lang, DocMeta[]> = {
 
 export const blogCatalog: Record<Lang, DocMeta[]> = {
   en: [
-    // TEMPORARILY HIDDEN — "The Day Text-to-SQL Died" (war story). Commented
-    // out by request; the markdown is kept at content/en/blog/text-to-sql-postmortem.md.
-    // Uncomment to restore it on /blog/, its /blog/[slug] route, and the sitemap.
-    /* {
-      slug: "text-to-sql-postmortem",
-      title: "The Day Text-to-SQL Died",
-      subtitle: "My VP watched the demo, didn't say no, and said one sentence — the sentence that killed our Text-to-SQL and gave rise to text2ontology's first principles. From the BERT dead end, to the keyword war on a local 70B model, to the despair of the multi-table collapse: a full year at war.",
-      kicker: "war story ★",
-      meta: "2026-05 · ~3,400 words · 13 min",
-      featured: true,
-    }, */
     {
       slug: "design-philosophy",
       title: "Design Philosophy",
@@ -186,17 +175,6 @@ export const blogCatalog: Record<Lang, DocMeta[]> = {
     },
   ],
   zh: [
-    // 暂时隐藏 —— 《Text-to-SQL 死在哪一天》(战争故事)。按要求注释掉,
-    // markdown 保留在 content/zh/blog/text-to-sql-postmortem.md。
-    // 取消注释即可恢复到 /zh/blog/、其 [slug] 路由与 sitemap。
-    /* {
-      slug: "text-to-sql-postmortem",
-      title: "Text-to-SQL 死在哪一天",
-      subtitle: "VP 看完 demo 没说反对,只说了一句话 —— 那句话杀死了我们的 Text-to-SQL,也催生了 text2ontology 的第一原则。从 BERT 死循环、到本地 70B 模型的关键词战争、到多表崩塌的绝望,一年战争的全记录。",
-      kicker: "战争故事 ★",
-      meta: "2026-05 · 约 4500 字 · 12 分钟",
-      featured: true,
-    }, */
     {
       slug: "design-philosophy",
       title: "设计哲学",
