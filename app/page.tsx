@@ -5,6 +5,7 @@ import { SectionBeliefs } from "@/components/landing/SectionBeliefs";
 import { SectionFlow } from "@/components/landing/SectionFlow";
 import { SectionShipped } from "@/components/landing/SectionShipped";
 import { SectionStart } from "@/components/landing/SectionStart";
+import { SectionPractice } from "@/components/landing/SectionPractice";
 import { pageAlternates } from "@/lib/seo";
 
 /**
@@ -15,6 +16,7 @@ import { pageAlternates } from "@/lib/seo";
  *   03 the runtime  → six-step flow from question to answer
  *   04 shipped       → what you can actually run today
  *   05 start         → docker compose up + GitHub link
+ *   06 in practice   → the full-stack loop: from a CSV to a signed answer
  */
 export const metadata = {
   alternates: pageAlternates({ enPath: "", lang: "en" }),
@@ -30,6 +32,7 @@ export default function Home() {
       <SectionFlow lang="en" />
       <SectionShipped lang="en" />
       <SectionStart lang="en" />
+      <SectionPractice lang="en" />
     </main>
   );
 }

@@ -35,7 +35,7 @@ export const docsPages: Record<DocLang, DocPage[]> = {
       slug: "core-concepts",
       title: "Core Concepts",
       subtitle:
-        "Ontology, OD, Metric, Keyword, the two agent modes, three-tier recall, and the three hard invariants.",
+        "Ontology, OD, Metric, Keyword, the three agent modes, three-tier recall, and the three hard invariants.",
     },
     {
       slug: "installation",
@@ -106,7 +106,7 @@ export const docsPages: Record<DocLang, DocPage[]> = {
     {
       slug: "core-concepts",
       title: "核心概念",
-      subtitle: "本体、OD、指标、关键词、两个 Agent 模式、三级召回,以及三条硬不变量。",
+      subtitle: "本体、OD、指标、关键词、三个 Agent 模式、三级召回,以及三条硬不变量。",
     },
     {
       slug: "installation",

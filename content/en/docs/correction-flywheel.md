@@ -6,6 +6,32 @@
 
 When an answer is wrong, don't retry and don't re-prompt. Every error has an **address** — walk the decision tree below, find it, and fix it once.
 
+## This is a loop, not a one-off
+
+Debugging isn't firefighting after something breaks; it's the system's **main mode of work.** Picture it as a loop:
+
+```mermaid
+flowchart LR
+  R["run a version<br/>dataset testing"] --> J["judge correct/incorrect<br/>manual or AI"]
+  J --> L["address the wrong one<br/>tokenization → OD → description → SQL"]
+  L --> F["fix it once in place<br/>keyword / OD / Metric / description"]
+  F -. re-run + compare versions .-> R
+```
+
+The [question set](/docs/question-sets/) gives you the **entry point** (which ones failed); this loop tells you **where each failure's address is, and how to fix it once so it doesn't come back.** That dotted edge is the crux: after you fix, **run a new version and N-way compare** — and you'll watch the fixed questions stay fixed. That ratchet is what separates this from traditional BI.
+
+## Where debugging happens: the case detail is your cockpit
+
+You don't have to hunt for clues. Open any case in **Dataset Testing** and its detail panel already lays the scene out:
+
+- **Tokenization** (how the sentence split into tokens, and what each matched)
+- **Every tool-call round** (which Metric the LLM picked, which parameters it filled)
+- **`generated_sql`** (the SQL SmartQuery actually stitched)
+- **Execution result / error**
+- **The final answer**
+
+In other words, there's no black box between "it's wrong" and "see why it's wrong." The decision tree below is just the order in which you read that scene.
+
 ## The decision tree: start at tokenization
 
 ### ① First reaction: check tokenization
@@ -20,7 +46,7 @@ Go to **Agent → Token Recall** (`/ontology/lakehouse-agent/token-recall`) to s
 
 ### ② Tokenization is right but it's still wrong → check the OD the LLM found
 
-If tokenization is entirely correct but the result is still off, **next check whether the ontology (OD) the LLM found is correct.**
+If tokenization is entirely correct but the result is still off, **next check whether the ontology (OD) the LLM found is correct.** The tool-call rounds in the case detail tell you directly which OD it anchored on.
 
 ### ③ The OD is wrong → revisit the ontology description
 
@@ -28,7 +54,7 @@ If the OD it found is itself wrong, **go back and reconsider: is your (natural-l
 
 ### ④ The OD is right but the numbers are wrong → check properties / table / SQL / keys
 
-If the OD is correct but **the numbers come back wrong**, the problem is one layer down: **the OD's properties, or the database table the properties map to, may be at fault.** Sit down and check, item by item:
+If the OD is correct but **the numbers come back wrong**, the problem is one layer down: **the OD's properties, or the database table the properties map to, may be at fault.** Read the `generated_sql` and execution result in the case detail, and check, item by item:
 
 - Is the `semantic_sql` (the "describe SQL") correct?
 - Are the **primary/foreign keys (join keys)** between tables wired correctly?
@@ -46,9 +72,9 @@ If the OD is correct but **the numbers come back wrong**, the problem is one lay
 | No metric covers a dimension | **Metrics** (create) | `/ontology/lakehouse-metrics` |
 | Add / edit / remove keywords | **Keywords** | `/ontology/lakehouse-keywords` |
 | OD description / semantic_sql / properties / Link | **Ontology** | `/ontology/lakehouse-objects` |
-| Annotate an agent decision | **Annotations** | `/ontology/lakehouse-agent/annotations` |
-| Regression-test, diff across versions | **Dataset Testing** | `/ontology/lakehouse-agent/dataset-testing` |
+| Annotate a decision, confirm tokenization | **Annotations** | `/ontology/lakehouse-agent/annotations` |
+| Regression-test, diff versions, read a case's scene | **Dataset Testing** | `/ontology/lakehouse-agent/dataset-testing` |
 
 ## Why it's worth it
 
-You curate, annotate, activate; it isn't open-the-box-in-fifteen-minutes. What you get back is this: **once an answer is fixed, it stays fixed** — because the error has an address, you fix it there, and the same shape of mistake doesn't return next week. Traditional BI doesn't give you that.
+You curate, annotate, activate; it isn't open-the-box-in-fifteen-minutes. What you get back is this: **once an answer is fixed, it stays fixed** — because the error has an address, you fix it there, and the same shape of mistake doesn't return next week. Every fix makes the system a little sharper, and **what's fixed doesn't regress.** That visible, week-over-week compounding convergence is something neither traditional BI nor "a bigger model" can give you.

@@ -1,6 +1,6 @@
 # Core Concepts
 
-> Ontology, OD, Metric, Keyword, the two agent modes, three-tier recall, and the three hard invariants.
+> Ontology, OD, Metric, Keyword, the three agent modes, three-tier recall, and the three hard invariants.
 
 ---
 
@@ -82,14 +82,19 @@ flowchart LR
 
 Vector recall uses `bge-large-zh` embeddings; vector columns are `vector(1024)` (pgvector). So **to make semantic recall work, configure an embedding model** in LLM config.
 
-## The two agent modes
+## The three agent modes
 
-Two independent agent modes, distinguished by `agent_type` on the thread (immutable once set):
+Three independent agent modes, distinguished by `agent_type` on the thread (immutable once set):
 
 | Mode | Purpose |
 |---|---|
-| **lakehouse** (query) | NL → recall → pick a Metric + fill params → SmartQuery → answer |
-| **builder** (modeling) | Interview-driven OD / Metric / Link creation, **human-activated** |
+| **lakehouse** (query) | NL → recall → pick a Metric + fill params → SmartQuery → answer. Both day-to-day questions and the [dataset-testing](/docs/question-sets/) replay run this mode |
+| **builder** (modeling) | Interview-driven OD / Metric / Link creation; output is a `pending` proposal that takes effect only after **human activation** |
+| **explore** (drafting a Metric) | Advanced: co-draft a new Metric in conversation — the LLM emits a structured `commit_card` (measure + dimensions + filters), **not SQL**, which the engine compiles |
+
+> All three share one iron rule: **the LLM only ever "picks structure and fills parameters" from finite sets; executable SQL is stitched by the deterministic engine.** Builder and explore produce proposals/drafts only — committing to the DB takes a human click.
+>
+> **Practical note**: builder mode is **not reliable enough today** — prefer modeling by hand (see [Step 2](/docs/builder-mode/)); explore is an advanced path you won't need day to day.
 
 ## Three hard invariants (enforced by architecture)
 

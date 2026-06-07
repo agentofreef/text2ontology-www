@@ -10,8 +10,8 @@ const t = {
     title: "What you can actually run today.",
     features: [
       {
-        title: "Two agent modes",
-        desc: "lakehouse (query) — for asking questions. builder (modeling) — for teaching the agent your business through interview-driven OD creation.",
+        title: "Three agent modes",
+        desc: "lakehouse (query) — ask questions. builder (modeling) — teach the agent your business via interview-driven OD creation. explore — co-draft a new Metric in conversation (emits a structured card, not SQL).",
       },
       {
         title: "Three-tier recall",
@@ -41,8 +41,8 @@ const t = {
     title: "今天你就能跑起来的东西。",
     features: [
       {
-        title: "两种 Agent 模式",
-        desc: "lakehouse(查询)—— 用来问问题。builder(建模)—— 通过访谈式 OD 构建,把业务教给 Agent。",
+        title: "三种 Agent 模式",
+        desc: "lakehouse(查询)—— 问问题。builder(建模)—— 访谈式构建 OD,把业务教给 Agent。explore(探索)—— 对话式草拟新口径,产出结构化卡片,不是 SQL。",
       },
       {
         title: "三层召回",

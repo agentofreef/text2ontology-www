@@ -5,6 +5,7 @@ import { SectionBeliefs } from "@/components/landing/SectionBeliefs";
 import { SectionFlow } from "@/components/landing/SectionFlow";
 import { SectionShipped } from "@/components/landing/SectionShipped";
 import { SectionStart } from "@/components/landing/SectionStart";
+import { SectionPractice } from "@/components/landing/SectionPractice";
 import { pageAlternates } from "@/lib/seo";
 
 /**
@@ -28,6 +29,7 @@ export default function Home() {
       <SectionFlow lang="zh" />
       <SectionShipped lang="zh" />
       <SectionStart lang="zh" />
+      <SectionPractice lang="zh" />
     </main>
   );
 }

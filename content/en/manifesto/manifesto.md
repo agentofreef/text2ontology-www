@@ -108,6 +108,8 @@ Every time a user asks, the ontology curator should review the LLM's tokenizatio
 
 This is an advantage that **simply does not exist** in the Text2SQL paradigm — there is no layer to correct. Every Text2SQL query is one-shot, leaves no trace. **Every query we serve reshapes the ontology itself.**
 
+And this correction isn't confined to each live question — it gets captured as **question sets / dataset testing**: write down the answers your organization's consensus authorizes, and replay them against the live system. **Writing the oracle (the Metric) and running the oracle (the question set) are the two ends of one system.** That is exactly what sets it apart from any stitched-together stack — everyone else outsources both ends (the front to "trust the model," the back to "a human eyeballs the dashboard"), and the precondition for governing anything is one coherent system that keeps both in hand, end to end.
+
 **The sales pitch**:
 > Buy Text2SQL — you get a snapshot accuracy number.
 > Buy Text2Ontology — you get a compounding upward curve.
@@ -164,9 +166,10 @@ Import direction is strictly unidirectional, enforced by CI. Full architecture i
 
 ### What's implemented
 
-- **Seven-image deployment** (6 Go services + nginx-served frontend), four-layer hexagonal, CI-enforced unidirectional imports
-- **Two agent modes**: query / build, each with its own tool surface and data targets
+- **Eight-image deployment** (6 Go services + gateway + frontend), four-layer hexagonal, CI-enforced unidirectional imports
+- **Three agent modes**: query (lakehouse) / build (builder) / explore (drafting a Metric), each with its own tool surface and data targets
 - **Metric system**: trigger word → complete query template (metric / filters / auto_group_by / pivot), zero-code additions
+- **Dataset testing**: named question sets → version runs (each pinned to an LLM config) → manual / AI-judge verdicts → cross-version compare, a closed regression loop
 - **Thread Memory Ledger**: cross-turn structured memory, token waste reduced by an order of magnitude
 - **Per-step agent logging** (`agent_step`): every agent decision is replayable
 
