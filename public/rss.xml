@@ -6,14 +6,28 @@
     <atom:link href="https://text2ontology.com/rss.xml" rel="self" type="application/rss+xml" />
     <description>Long-form thinking on AI / data / ontology. Architecture, commercial thesis, critique of mainstream Agentic Data Analyst.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 May 2026 14:21:56 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2026 05:22:53 GMT</lastBuildDate>
     <managingEditor>redeemer@vip.163.com (AgentOfReef)</managingEditor>
     <webMaster>redeemer@vip.163.com (AgentOfReef)</webMaster>
+    <item>
+      <title>Ontology Is Law</title>
+      <link>https://text2ontology.com/blog/ontology-as-law/</link>
+      <guid isPermaLink="true">https://text2ontology.com/blog/ontology-as-law/</guid>
+      <pubDate>Fri, 19 Jun 2026 05:18:23 GMT</pubDate>
+      <description>Strip away the technology, strip away the management, and what I&apos;ve delivered is a body of law — a law for a domain that has no oracle. This is the canon for the whole series. The canon of the text2ontology series. The other pieces are this law seen from different sides: - Its judiciary — why the ontology is the oracle…</description>
+    </item>
+    <item>
+      <title>No One Builds an Ontology Alone</title>
+      <link>https://text2ontology.com/blog/no-one-builds-an-ontology-alone/</link>
+      <guid isPermaLink="true">https://text2ontology.com/blog/no-one-builds-an-ontology-alone/</guid>
+      <pubDate>Fri, 19 Jun 2026 05:17:55 GMT</pubDate>
+      <description>The knowledge in an ontology never lives in one head. So building one was never meant to be one person&apos;s job. This is about text2ontology&apos;s public mechanism — what it shares, what it deliberately doesn&apos;t, and why &quot;collaborative&quot; isn&apos;t a feature but the precondition for an ontology surviving inside a real organization. …</description>
+    </item>
     <item>
       <title>Design Philosophy</title>
       <link>https://text2ontology.com/blog/design-philosophy/</link>
       <guid isPermaLink="true">https://text2ontology.com/blog/design-philosophy/</guid>
-      <pubDate>Wed, 20 May 2026 07:20:26 GMT</pubDate>
+      <pubDate>Thu, 04 Jun 2026 05:47:51 GMT</pubDate>
       <description>Three-layer ontology + two-level query + one-pass recall This is the spine of the whole essay. See the full flow first, then unpack each step. The core insight: &quot;Tokenize + recall&quot; is deterministic — backend SQL code, no LLM. The LLM is a constrained executor, not a source of truth — it can only pick from recalled cont…</description>
     </item>
     <item>
@@ -34,7 +48,7 @@
       <title>Business Ontology Engineer</title>
       <link>https://text2ontology.com/blog/business-ontology-engineer/</link>
       <guid isPermaLink="true">https://text2ontology.com/blog/business-ontology-engineer/</guid>
-      <pubDate>Fri, 15 May 2026 14:14:12 GMT</pubDate>
+      <pubDate>Thu, 04 Jun 2026 06:00:22 GMT</pubDate>
       <description>Business Ontology Engineer (BOE) · In the AI era, the person who makes a company&apos;s &quot;data truth&quot; hold Ontology has an operational definition in the enterprise context. When you hear someone say &quot;ontology,&quot; you can check what they mean against these five criteria: Concretely: - &quot;Order&quot; is a business concept - &quot;Customer&quot; …</description>
     </item>
   </channel>

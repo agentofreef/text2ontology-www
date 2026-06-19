@@ -150,6 +150,20 @@ export const docsCatalog: Record<Lang, DocMeta[]> = {
 export const blogCatalog: Record<Lang, DocMeta[]> = {
   en: [
     {
+      slug: "ontology-as-law",
+      title: "Ontology Is Law",
+      subtitle:
+        "Strip away the technology and the management, and what's delivered is a body of law — for a domain that has no oracle. The canon for the whole series.",
+      kicker: "canon",
+    },
+    {
+      slug: "no-one-builds-an-ontology-alone",
+      title: "No One Builds an Ontology Alone",
+      subtitle:
+        "Why ontology production must be distributed like open-source collaboration, and how the public mechanism shares ontology while keeping metrics local.",
+      kicker: "thesis",
+    },
+    {
       slug: "governance-is-full-stack",
       title: "Governance Is a Full-Stack Property",
       subtitle: "Two claims: why full-stack is necessary (\"every error has an address\" is a property of the whole chain, not a feature of the query layer), and why it beats Text-to-SQL and BI tools — by owning the two ends everyone else outsources: writing the oracle, and running it.",
@@ -182,6 +196,20 @@ export const blogCatalog: Record<Lang, DocMeta[]> = {
     },
   ],
   zh: [
+    {
+      slug: "ontology-as-law",
+      title: "本体即法律",
+      subtitle:
+        "剥掉技术、剥掉管理,剩下的是一部法 —— 给一个没有真理裁判的领域立的法。这是整个系列的总纲。",
+      kicker: "总纲",
+    },
+    {
+      slug: "no-one-builds-an-ontology-alone",
+      title: "没有人能独自建成一座本体",
+      subtitle:
+        "为什么本体的生产必须像开源协作一样分布式,以及 public 机制如何共享本体、却把口径留在本地。",
+      kicker: "thesis",
+    },
     {
       slug: "governance-is-full-stack",
       title: "治理是一种全栈属性",

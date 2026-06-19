@@ -23,6 +23,8 @@ const AUTHOR_EMAIL = "redeemer@vip.163.com";
 
 // Slug order must match blogCatalog in lib/content.ts.
 const SLUGS = [
+  "ontology-as-law",
+  "no-one-builds-an-ontology-alone",
   "design-philosophy",
   "responsibility-as-moat",
   "ai-agentic-illusion",
@@ -31,12 +33,16 @@ const SLUGS = [
 
 const TITLES = {
   en: {
+    "ontology-as-law": "Ontology Is Law",
+    "no-one-builds-an-ontology-alone": "No One Builds an Ontology Alone",
     "design-philosophy": "Design Philosophy",
     "responsibility-as-moat": "Responsibility as Moat",
     "ai-agentic-illusion": "The AI Agentic Illusion",
     "business-ontology-engineer": "Business Ontology Engineer",
   },
   zh: {
+    "ontology-as-law": "本体即法律",
+    "no-one-builds-an-ontology-alone": "没有人能独自建成一座本体",
     "design-philosophy": "设计哲学",
     "responsibility-as-moat": "责任即利润率",
     "ai-agentic-illusion": "AI Agentic 错觉",
